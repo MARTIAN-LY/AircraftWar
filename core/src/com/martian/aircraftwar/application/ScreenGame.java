@@ -193,6 +193,7 @@ public class ScreenGame implements Screen {
         if (TimeUtils.nanoTime() - lastHeroShoot > 1000000000){
             bullets.addAll(hero.shoot());
             lastEnemyShoot = TimeUtils.nanoTime();
+            lastHeroShoot = TimeUtils.nanoTime();
         }
     }
 

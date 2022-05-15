@@ -5,6 +5,5 @@ import com.martian.aircraftwar.bullet.BaseBullet;
 import java.util.List;
 
 public interface ShootStrategy {
-
-    List<BaseBullet> shoot();
+    List<BaseBullet> doShoot(float x, float y);
 }

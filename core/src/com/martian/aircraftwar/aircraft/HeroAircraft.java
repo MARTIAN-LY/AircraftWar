@@ -2,7 +2,8 @@ package com.martian.aircraftwar.aircraft;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.martian.aircraftwar.basic.GameUtils;
-import com.martian.aircraftwar.shoot.StraightShoot;
+import com.martian.aircraftwar.shoot.HeroShootDirect;
+import com.martian.aircraftwar.shoot.HeroShootScattered;
 
 public class HeroAircraft extends AbstractAircraft {
 
@@ -17,25 +18,9 @@ public class HeroAircraft extends AbstractAircraft {
         return instance;
     }
 
-    /**
-     * 最大射击数量
-     */
-    private final int maxSootNum;
-    /**
-     * 子弹数
-     */
-    private int shootNum;
-
-
     private HeroAircraft(Texture image, float locationX, float locationY, float speedX, float speedY, int hp) {
         super(image, locationX, locationY, speedX, speedY, hp);
-        maxSootNum = 5;
-        shootNum = 1;
-        shootStrategy = new StraightShoot(shootNum,locationX,
-                locationY+width/2,
-                100,
-                GameUtils.HERO_BULLET
-        );
+        shootStrategy = new HeroShootDirect();
     }
 
     /**
