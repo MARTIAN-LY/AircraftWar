@@ -31,7 +31,7 @@ public class EnemyShootScattered implements ShootStrategy
         int direction = 1;
         int speedX = -(shootNum / 2) * 10;
         int speedY = -150;
-        y -= 202;
+        y -= 2;
         x += 150;
         BaseBullet bullet;
         for(int i = 0; i < shootNum; i++)

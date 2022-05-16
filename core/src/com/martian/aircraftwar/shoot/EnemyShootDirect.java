@@ -15,7 +15,7 @@ public class EnemyShootDirect implements ShootStrategy
     {
         List<BaseBullet> res = new LinkedList<>();
         int shootNum = 1;
-        y -= 72;
+        y -= 2;
         x += 52;
         int speedX = 0;
         int speedY = -150;

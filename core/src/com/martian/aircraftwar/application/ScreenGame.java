@@ -5,14 +5,21 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.martian.aircraftwar.aircraft.AbstractAircraft;
+import com.martian.aircraftwar.aircraft.EliteEnemy;
+import com.martian.aircraftwar.aircraft.EliteEnemyFactory;
 import com.martian.aircraftwar.aircraft.HeroAircraft;
 import com.martian.aircraftwar.aircraft.MobEnemyFactory;
+import com.martian.aircraftwar.basic.AbstractFlyingObject;
 import com.martian.aircraftwar.basic.GameUtils;
 import com.martian.aircraftwar.bullet.BaseBullet;
+import com.martian.aircraftwar.bullet.EnemyBullet;
+import com.martian.aircraftwar.bullet.HeroBullet;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -24,6 +31,7 @@ public class ScreenGame implements Screen {
     private final OrthographicCamera camera;
     private final Music bg_music;
     private final Sound hit_sound;
+    private final Sound hero_hit_sound;
     private final float bg_width;
     private final float bg_height;
     private float bottom;
@@ -37,9 +45,11 @@ public class ScreenGame implements Screen {
     private final Vector3 touchPos;
 
     private MobEnemyFactory mobEnemyFactory;
+    private EliteEnemyFactory eliteEnemyFactory;
 
     private LinkedList<AbstractAircraft> enemies;
     private LinkedList<BaseBullet> bullets;
+    private int score = 0;
 
     public ScreenGame(AircraftWarGame game) {
         this.game = game;
@@ -52,6 +62,7 @@ public class ScreenGame implements Screen {
         // load music
         bg_music = Gdx.audio.newMusic(Gdx.files.internal("videos/bg_music.mp3"));
         hit_sound = Gdx.audio.newSound(Gdx.files.internal("videos/bullet_hit.wav"));
+        hero_hit_sound = Gdx.audio.newSound(Gdx.files.internal("videos/hero_hit.wav"));
 
         hero = HeroAircraft.getInstance();
         touchPos = new Vector3();
@@ -61,6 +72,7 @@ public class ScreenGame implements Screen {
         lastHeroShoot = 0;
         lastEnemyShoot = 0;
         mobEnemyFactory = new MobEnemyFactory();
+        eliteEnemyFactory = new EliteEnemyFactory();
 
         // camera
         camera = new OrthographicCamera();
@@ -117,7 +129,71 @@ public class ScreenGame implements Screen {
 
 
     private void crashCheckAction() {
-
+        for(AbstractAircraft enemyAircraft : enemies)
+        {
+            // 英雄机 与 敌机 相撞，均损毁
+            if(hero.notValid())
+            {
+                continue;
+            }
+            if(enemyAircraft.overlaps(hero))
+            {
+                enemyAircraft.vanish();
+                hero.decreaseHp(Integer.MAX_VALUE);
+            }
+        }
+        // TODO 敌机子弹攻击英雄
+        for(BaseBullet bullet : bullets)
+        {
+            if(bullet.notValid() || !(bullet instanceof EnemyBullet))
+            {
+                continue;
+            }
+            if(hero.notValid())
+            {
+                // 英雄机已被其他子弹击毁，不再检测
+                continue;
+            }
+            if(hero.crash(bullet))
+            {
+                // 英雄机撞击到敌机子弹
+                // 英雄机损失一定生命值
+                hero.decreaseHp(bullet.getPower());
+                bullet.vanish();
+                hero_hit_sound.play();
+            }
+        }
+        for(BaseBullet bullet : bullets)
+        {
+            if (bullet.notValid()|| !(bullet instanceof HeroBullet))
+            {
+                continue;
+            }
+            for (AbstractAircraft enemyAircraft : enemies)
+            {
+                if (enemyAircraft.notValid())
+                {
+                    // 已被其他子弹击毁的敌机，不再检测
+                    // 避免多个子弹重复击毁同一敌机的判定
+                    continue;
+                }
+                if (enemyAircraft.overlaps(bullet))
+                {
+                    // 敌机撞击到英雄机子弹
+                    // 敌机损失一定生命值
+                    hit_sound.play();
+                    enemyAircraft.decreaseHp(bullet.getPower());
+                    bullet.vanish();
+                    if (enemyAircraft.notValid())
+                    {
+                        // TODO 获得分数，产生道具补给
+                        score += 10;
+                        //props.addAll(enemyAircraft.dropProp());
+                    }
+                    break;
+                }
+            }
+        }
     }
 
     private void moveAction() {
@@ -184,7 +260,14 @@ public class ScreenGame implements Screen {
 
     private void addEnemyAction() {
         if (TimeUtils.nanoTime() - lastEnemyGen > 1000000000){
-            enemies.add(mobEnemyFactory.createEnemy());
+            if(MathUtils.random(0, 100) <= 20)
+            {
+                enemies.add(eliteEnemyFactory.createEnemy());
+            }
+            else
+            {
+                enemies.add(mobEnemyFactory.createEnemy());
+            }
             lastEnemyGen = TimeUtils.nanoTime();
         }
     }
@@ -192,17 +275,22 @@ public class ScreenGame implements Screen {
     private void shootAction(){
         if (TimeUtils.nanoTime() - lastHeroShoot > 1000000000){
             bullets.addAll(hero.shoot());
-            lastEnemyShoot = TimeUtils.nanoTime();
             lastHeroShoot = TimeUtils.nanoTime();
+        }
+        if (TimeUtils.nanoTime() - lastEnemyShoot > 1000000000){
+            for(AbstractAircraft enemy : enemies)
+            {
+                bullets.addAll(enemy.shoot());
+            }
+            lastEnemyShoot = TimeUtils.nanoTime();
         }
     }
 
     private void clearAction(){
-
         for (Iterator<AbstractAircraft> iterator = enemies.iterator(); iterator.hasNext(); ) {
             AbstractAircraft aircraft = iterator.next();
-            //超出屏幕
-            if (aircraft.y + aircraft.height < 0) {
+            //超出屏幕或not valid
+            if (aircraft.y + aircraft.height < 0 || aircraft.notValid()) {
                 iterator.remove();
             }
         }
@@ -210,7 +298,7 @@ public class ScreenGame implements Screen {
         for (Iterator<BaseBullet> iterator = bullets.iterator(); iterator.hasNext(); ) {
             BaseBullet bullet = iterator.next();
             //超出屏幕
-            if (bullet.y + bullet.height < 0) {
+            if (bullet.y + bullet.height < 0 || bullet.notValid()) {
                 iterator.remove();
             }
         }

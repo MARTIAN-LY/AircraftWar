@@ -2,6 +2,8 @@ package com.martian.aircraftwar.aircraft;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.martian.aircraftwar.shoot.EnemyShootDirect;
+import com.martian.aircraftwar.shoot.EnemyShootNothing;
+import com.martian.aircraftwar.shoot.EnemyShootScattered;
 
 public class EliteEnemy extends AbstractAircraft {
 
