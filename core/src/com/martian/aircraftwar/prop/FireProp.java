@@ -17,7 +17,7 @@ public class FireProp extends AbstractProp
     @Override
     public void effect()
     {
-        final HeroAircraft heroAircraft = HeroAircraft.getInstance();
+        HeroAircraft heroAircraft = HeroAircraft.getInstance();
         Runnable r = () ->
         {
             long beginTime = System.currentTimeMillis();

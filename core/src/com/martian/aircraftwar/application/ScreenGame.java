@@ -151,7 +151,7 @@ public class ScreenGame implements Screen {
                     // 英雄机已被其他子弹击毁，不再检测
                     continue;
                 }
-                if(hero.overlaps(prop))
+                if(hero.overlaps(prop) || prop.overlaps(hero))
                 {
                     prop_sound.play();
                     if(prop instanceof BombProp)
@@ -222,7 +222,7 @@ public class ScreenGame implements Screen {
                     {
                         // TODO 获得分数，产生道具补给
                         score += 10;
-                        //props.addAll(enemyAircraft.dropProp());
+                        props.addAll(enemyAircraft.dropProp());
                     }
                     break;
                 }
@@ -235,6 +235,7 @@ public class ScreenGame implements Screen {
         heroMove();
         enemyMove();
         bulletMove();
+        propMove();
     }
 
     private void backgroundMove() {
@@ -271,6 +272,12 @@ public class ScreenGame implements Screen {
         }
     }
 
+    private void propMove() {
+        for (AbstractProp prop : props) {
+            prop.forward();
+        }
+    }
+
     private void drawAction() {
 
         //绘制背景及得分
@@ -289,6 +296,12 @@ public class ScreenGame implements Screen {
         //绘制子弹
         for (BaseBullet bullet : bullets) {
             game.batch.draw(bullet.getImage(),bullet.x,bullet.y);
+        }
+
+        //绘制道具
+        for(AbstractProp prop : props)
+        {
+            game.batch.draw(prop.getImage(), prop.x, prop.y);
         }
     }
 
