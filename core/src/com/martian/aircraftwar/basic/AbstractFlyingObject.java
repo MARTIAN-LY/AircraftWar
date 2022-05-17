@@ -10,8 +10,8 @@ public abstract class AbstractFlyingObject extends Rectangle {
      * 图片
      */
     Texture image;
-    float speedX;
-    float speedY;
+    protected float speedX;
+    protected float speedY;
     boolean isValid;
 
     public AbstractFlyingObject(Texture image, float locationX, float locationY, float speedX, float speedY) {
@@ -34,8 +34,15 @@ public abstract class AbstractFlyingObject extends Rectangle {
     public void forward() {
         x += Gdx.graphics.getDeltaTime() * speedX;
         y += Gdx.graphics.getDeltaTime() * speedY;
-        if (x <= 0 || x >= maxRight) {
-            speedX = -speedX;
+        if (x <= 0)
+        {
+            speedX = Math.abs(speedX);
+            x = 0;
+        }
+        else if(x + image.getWidth() >= maxRight)
+        {
+            speedX = -Math.abs(speedX);
+            x = maxRight - image.getWidth();
         }
     }
 

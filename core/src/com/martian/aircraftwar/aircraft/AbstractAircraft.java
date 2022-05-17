@@ -3,6 +3,7 @@ package com.martian.aircraftwar.aircraft;
 import com.badlogic.gdx.graphics.Texture;
 import com.martian.aircraftwar.basic.AbstractFlyingObject;
 import com.martian.aircraftwar.bullet.BaseBullet;
+import com.martian.aircraftwar.prop.AbstractProp;
 import com.martian.aircraftwar.shoot.ShootStrategy;
 
 import java.util.LinkedList;
@@ -43,4 +44,8 @@ public abstract class AbstractAircraft extends AbstractFlyingObject {
         this.shootStrategy = shootStrategy;
     }
 
+    public List<AbstractProp> dropProp()
+    {
+        return new LinkedList<>();
+    }
 }

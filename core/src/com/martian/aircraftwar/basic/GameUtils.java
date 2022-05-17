@@ -22,6 +22,9 @@ public class GameUtils {
     public static Texture BOSS_IMAGE;
     public static Texture ENEMY_BULLET_IMAGE;
     public static Texture HERO_BULLET_IMAGE;
+    public static Texture HEAL_PROP_IMAGE;
+    public static Texture FIRE_PROP_IMAGE;
+    public static Texture BOMB_PROP_IMAGE;
 
     static {
         BACKGROUND_IMAGE_1 = new Texture(Gdx.files.internal("images/bg1.jpg"));
@@ -33,6 +36,9 @@ public class GameUtils {
         BOSS_IMAGE = new Texture(Gdx.files.internal("images/boss.png"));
         ENEMY_BULLET_IMAGE = new Texture(Gdx.files.internal("images/bullet_enemy.png"));
         HERO_BULLET_IMAGE = new Texture(Gdx.files.internal("images/bullet_hero.png"));
+        HEAL_PROP_IMAGE = new Texture(Gdx.files.internal("images/prop_blood.png"));
+        FIRE_PROP_IMAGE = new Texture(Gdx.files.internal("images/prop_bullet.png"));
+        BOMB_PROP_IMAGE = new Texture(Gdx.files.internal("images/prop_bomb.png"));
 
         BG_WIDTH = BACKGROUND_IMAGE_1.getWidth();
         BG_HEIGHT = BACKGROUND_IMAGE_1.getHeight();

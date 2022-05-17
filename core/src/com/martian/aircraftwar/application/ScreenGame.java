@@ -11,6 +11,8 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.martian.aircraftwar.aircraft.AbstractAircraft;
+import com.martian.aircraftwar.aircraft.BossEnemy;
+import com.martian.aircraftwar.aircraft.BossEnemyFactory;
 import com.martian.aircraftwar.aircraft.EliteEnemy;
 import com.martian.aircraftwar.aircraft.EliteEnemyFactory;
 import com.martian.aircraftwar.aircraft.HeroAircraft;
@@ -20,6 +22,8 @@ import com.martian.aircraftwar.basic.GameUtils;
 import com.martian.aircraftwar.bullet.BaseBullet;
 import com.martian.aircraftwar.bullet.EnemyBullet;
 import com.martian.aircraftwar.bullet.HeroBullet;
+import com.martian.aircraftwar.prop.AbstractProp;
+import com.martian.aircraftwar.prop.BombProp;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -32,6 +36,7 @@ public class ScreenGame implements Screen {
     private final Music bg_music;
     private final Sound hit_sound;
     private final Sound hero_hit_sound;
+    private final Sound prop_sound;
     private final float bg_width;
     private final float bg_height;
     private float bottom;
@@ -46,10 +51,14 @@ public class ScreenGame implements Screen {
 
     private MobEnemyFactory mobEnemyFactory;
     private EliteEnemyFactory eliteEnemyFactory;
+    private BossEnemyFactory bossEnemyFactory;
 
     private LinkedList<AbstractAircraft> enemies;
     private LinkedList<BaseBullet> bullets;
+    private LinkedList<AbstractProp> props;
     private int score = 0;
+    private int lasBossScore = 0;
+    private boolean havBoss = false;
 
     public ScreenGame(AircraftWarGame game) {
         this.game = game;
@@ -63,16 +72,19 @@ public class ScreenGame implements Screen {
         bg_music = Gdx.audio.newMusic(Gdx.files.internal("videos/bg_music.mp3"));
         hit_sound = Gdx.audio.newSound(Gdx.files.internal("videos/bullet_hit.wav"));
         hero_hit_sound = Gdx.audio.newSound(Gdx.files.internal("videos/hero_hit.wav"));
+        prop_sound = Gdx.audio.newSound(Gdx.files.internal("videos/get_supply.wav"));
 
         hero = HeroAircraft.getInstance();
         touchPos = new Vector3();
         enemies = new LinkedList<>();
         bullets = new LinkedList<>();
+        props = new LinkedList<>();
         lastEnemyGen = 0;
         lastHeroShoot = 0;
         lastEnemyShoot = 0;
         mobEnemyFactory = new MobEnemyFactory();
         eliteEnemyFactory = new EliteEnemyFactory();
+        bossEnemyFactory = new BossEnemyFactory();
 
         // camera
         camera = new OrthographicCamera();
@@ -129,6 +141,28 @@ public class ScreenGame implements Screen {
 
 
     private void crashCheckAction() {
+        // Todo: 我方获得道具，道具生效
+        for(AbstractProp prop : props)
+        {
+            if(!prop.notValid())
+            {
+                if(hero.notValid())
+                {
+                    // 英雄机已被其他子弹击毁，不再检测
+                    continue;
+                }
+                if(hero.overlaps(prop))
+                {
+                    prop_sound.play();
+                    if(prop instanceof BombProp)
+                    {
+                        score += ((BombProp) prop).effect(enemies, bullets);
+                    }
+                    else prop.effect();
+                    prop.vanish();
+                }
+            }
+        }
         for(AbstractAircraft enemyAircraft : enemies)
         {
             // 英雄机 与 敌机 相撞，均损毁
@@ -216,8 +250,8 @@ public class ScreenGame implements Screen {
             touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             //把变化告知给camera
             camera.unproject(touchPos);
-            hero.x = touchPos.x;
-            hero.y = touchPos.y;
+            hero.x = touchPos.x - hero.getWidth() / 2;
+            hero.y = touchPos.y - hero.getHeight() / 2;
         }
     }
 
@@ -260,7 +294,12 @@ public class ScreenGame implements Screen {
 
     private void addEnemyAction() {
         if (TimeUtils.nanoTime() - lastEnemyGen > 1000000000){
-            if(MathUtils.random(0, 100) <= 20)
+            if(score - lasBossScore >= 100 && !havBoss)
+            {
+                havBoss = true;
+                enemies.add(bossEnemyFactory.createEnemy());
+            }
+            else if(MathUtils.random(0, 100) <= 20)
             {
                 enemies.add(eliteEnemyFactory.createEnemy());
             }
@@ -291,18 +330,18 @@ public class ScreenGame implements Screen {
             AbstractAircraft aircraft = iterator.next();
             //超出屏幕或not valid
             if (aircraft.y + aircraft.height < 0 || aircraft.notValid()) {
+                if(aircraft instanceof BossEnemy)
+                {
+                    lasBossScore = score;
+                    havBoss = false;
+                }
                 iterator.remove();
             }
         }
 
-        for (Iterator<BaseBullet> iterator = bullets.iterator(); iterator.hasNext(); ) {
-            BaseBullet bullet = iterator.next();
-            //超出屏幕
-            if (bullet.y + bullet.height < 0 || bullet.notValid()) {
-                iterator.remove();
-            }
-        }
-
+        //超出屏幕
+        bullets.removeIf(bullet -> bullet.y + bullet.height < 0 || bullet.notValid());
+        props.removeIf(prop -> prop.y + prop.height < 0 || prop.notValid());
     }
 
 }
