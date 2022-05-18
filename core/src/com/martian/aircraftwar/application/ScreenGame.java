@@ -154,6 +154,7 @@ public class ScreenGame implements Screen {
                 if(hero.overlaps(prop) || prop.overlaps(hero))
                 {
                     prop_sound.play();
+                    System.out.println("233");
                     if(prop instanceof BombProp)
                     {
                         score += ((BombProp) prop).effect(enemies, bullets);

@@ -26,15 +26,15 @@ public class EliteEnemy extends AbstractAircraft {
         float y = this.y;
         int type = MathUtils.random(0, 100);
         PropFactory propFactory;
-        if(type <= 40)
+        if(type <= 10)
         {
             return res;
         }
-        else if(type <= 60)
+        else if(type <= 40)
         {
             propFactory = new FirePropFactory();
         }
-        else if(type <= 80)
+        else if(type <= 70)
         {
             propFactory = new BombPropFactory();
         }

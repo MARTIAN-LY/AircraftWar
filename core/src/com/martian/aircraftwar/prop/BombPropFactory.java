@@ -7,6 +7,6 @@ public class BombPropFactory implements PropFactory
     @Override
     public AbstractProp createProp(float locationX, float locationY, float speedX, float speedY)
     {
-        return new HealProp(GameUtils.BOMB_PROP_IMAGE, locationX, locationY, speedX, speedY);
+        return new BombProp(GameUtils.BOMB_PROP_IMAGE, locationX, locationY, speedX, speedY);
     }
 }

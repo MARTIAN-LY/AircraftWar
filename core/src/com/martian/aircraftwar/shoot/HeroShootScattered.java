@@ -1,6 +1,7 @@
 package com.martian.aircraftwar.shoot;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.martian.aircraftwar.bullet.BaseBullet;
 import com.martian.aircraftwar.bullet.HeroBullet;
@@ -10,6 +11,8 @@ import java.util.List;
 
 public class HeroShootScattered implements ShootStrategy
 {
+    static private Sound shootSound = Gdx.audio.newSound(Gdx.files.internal("videos/bullet.wav"));
+
     @Override
     public List<BaseBullet> doShoot(float x, float y)
     {
@@ -28,6 +31,7 @@ public class HeroShootScattered implements ShootStrategy
             res.add(bullet);
             speedX += 10;
         }
+        shootSound.play();
         return res;
     }
 }

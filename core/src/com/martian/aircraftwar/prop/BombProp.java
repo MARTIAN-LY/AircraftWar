@@ -5,9 +5,12 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.martian.aircraftwar.aircraft.AbstractAircraft;
 import com.martian.aircraftwar.aircraft.BossEnemy;
+import com.martian.aircraftwar.aircraft.HeroAircraft;
 import com.martian.aircraftwar.basic.AbstractFlyingObject;
 import com.martian.aircraftwar.bullet.BaseBullet;
 import com.martian.aircraftwar.bullet.EnemyBullet;
+import com.martian.aircraftwar.shoot.HeroShootDirect;
+import com.martian.aircraftwar.shoot.HeroShootScattered;
 
 import java.util.ArrayList;
 import java.util.Iterator;

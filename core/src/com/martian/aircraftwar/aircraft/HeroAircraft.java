@@ -12,7 +12,7 @@ public class HeroAircraft extends AbstractAircraft {
      */
     public static HeroAircraft instance = new HeroAircraft(GameUtils.HERO_IMAGE,
             (GameUtils.BG_WIDTH - GameUtils.HERO_IMAGE.getWidth()) / 2,
-            0, 0, 0, 3);
+            0, 0, 0, 20);
 
     public static HeroAircraft getInstance() {
         return instance;

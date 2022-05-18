@@ -28,11 +28,11 @@ public class BossEnemy extends AbstractAircraft {
         float y = this.y;
         int type = MathUtils.random(0, 100);
         PropFactory propFactory;
-        if(type < 33)
+        if(type <= 33)
         {
             propFactory = new FirePropFactory();
         }
-        else if(type < 66)
+        else if(type <= 66)
         {
             propFactory = new BombPropFactory();
         }
