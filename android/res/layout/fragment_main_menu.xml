@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/menu_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg1"
+    tools:context=".fragments.MainMenu">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <Button
+        android:id="@+id/button_startGame"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="380dp"
+        android:layout_marginEnd="60dp"
+        android:background="@drawable/btn_shaped"
+        android:text="开始游戏"
+        android:textColor="@color/light_blue_900"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_onlinePK"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="60dp"
+        android:background="@drawable/btn_shaped"
+        android:text="联机对战"
+        android:textColor="@color/light_blue_900"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_startGame" />
+
+    <Button
+        android:id="@+id/button_propShop"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="60dp"
+        android:background="@drawable/btn_shaped"
+        android:text="道具商城"
+        android:textColor="@color/light_blue_900"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_onlinePK" />
+
+    <Button
+        android:id="@+id/button_rankingList"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="60dp"
+        android:background="@drawable/btn_shaped"
+        android:text="天梯排行"
+        android:textColor="@color/light_blue_900"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_propShop" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

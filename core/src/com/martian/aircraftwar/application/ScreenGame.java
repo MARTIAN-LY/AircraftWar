@@ -140,7 +140,7 @@ public class ScreenGame implements Screen {
     }
 
 
-    private void crashCheckAction() {
+    protected void crashCheckAction() {
         // Todo: 我方获得道具，道具生效
         for(AbstractProp prop : props)
         {
@@ -231,7 +231,7 @@ public class ScreenGame implements Screen {
         }
     }
 
-    private void moveAction() {
+    protected void moveAction() {
         backgroundMove();
         heroMove();
         enemyMove();
@@ -239,14 +239,14 @@ public class ScreenGame implements Screen {
         propMove();
     }
 
-    private void backgroundMove() {
+    protected void backgroundMove() {
         bottom -= Gdx.graphics.getDeltaTime() * 100;
         if (bottom <= 0) {
             bottom = bg_height;
         }
     }
 
-    private void heroMove() {
+    protected void heroMove() {
         //如果屏幕被点击
         if (Gdx.input.isTouched()) {
             touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -257,7 +257,7 @@ public class ScreenGame implements Screen {
         }
     }
 
-    private void enemyMove() {
+    protected void enemyMove() {
         for (AbstractAircraft enemy : enemies) {
             enemy.forward();
 
@@ -267,19 +267,19 @@ public class ScreenGame implements Screen {
         }
     }
 
-    private void bulletMove() {
+    protected void bulletMove() {
         for (BaseBullet bullet : bullets) {
             bullet.forward();
         }
     }
 
-    private void propMove() {
+    protected void propMove() {
         for (AbstractProp prop : props) {
             prop.forward();
         }
     }
 
-    private void drawAction() {
+    protected void drawAction() {
 
         //绘制背景及得分
         game.font.draw(game.batch, "Score", 0, bg_height - 20);
@@ -306,7 +306,7 @@ public class ScreenGame implements Screen {
         }
     }
 
-    private void addEnemyAction() {
+    protected void addEnemyAction() {
         if (TimeUtils.nanoTime() - lastEnemyGen > 1000000000){
             if(score - lasBossScore >= 100 && !havBoss)
             {
@@ -325,7 +325,7 @@ public class ScreenGame implements Screen {
         }
     }
 
-    private void shootAction(){
+    protected void shootAction(){
         if (TimeUtils.nanoTime() - lastHeroShoot > 1000000000){
             bullets.addAll(hero.shoot());
             lastHeroShoot = TimeUtils.nanoTime();
@@ -339,7 +339,7 @@ public class ScreenGame implements Screen {
         }
     }
 
-    private void clearAction(){
+    protected void clearAction(){
         for (Iterator<AbstractAircraft> iterator = enemies.iterator(); iterator.hasNext(); ) {
             AbstractAircraft aircraft = iterator.next();
             //超出屏幕或not valid

@@ -11,22 +11,34 @@
         android:allowBackup="true"
         android:appCategory="game"
         android:fullBackupContent="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@mipmap/ic_launcher"
         android:isGame="true"
         android:label="@string/app_name"
         tools:ignore="UnusedAttribute">
         <activity
-            android:name=".AndroidLauncher"
-            android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenSize|screenLayout"
+            android:name=".shop.ShopActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat" />
+        <activity
+            android:name=".rank.RankActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat" />
+        <activity
+            android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait">
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".AndroidLauncher"
+            android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenSize|screenLayout"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

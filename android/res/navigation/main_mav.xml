@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_mav"
+    app:startDestination="@id/mainMenu">
+
+    <fragment
+        android:id="@+id/mainMenu"
+        android:name="com.martian.aircraftwar.fragments.MainMenu"
+        android:label="fragment_main_menu"
+        tools:layout="@layout/fragment_main_menu" >
+        <action
+            android:id="@+id/nav_mainToModeSelect"
+            app:destination="@id/modeSelect"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
+        <action
+            android:id="@+id/nav_menuToRank"
+            app:destination="@id/rankActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/modeSelect"
+        android:name="com.martian.aircraftwar.fragments.ModeSelect"
+        android:label="fragment_mode_select"
+        tools:layout="@layout/fragment_mode_select" >
+        <action
+            android:id="@+id/nav_modeSelectToMain"
+            app:destination="@id/mainMenu"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/nav_mode_to_game"
+            app:destination="@id/androidLauncher" />
+    </fragment>
+    <activity
+        android:id="@+id/rankActivity"
+        android:name="com.martian.aircraftwar.rank.RankActivity"
+        android:label="activity_rank"
+        tools:layout="@layout/activity_rank" />
+    <activity
+        android:id="@+id/androidLauncher"
+        android:name="com.martian.aircraftwar.AndroidLauncher"
+        android:label="AndroidLauncher" >
+        <argument
+            android:name="mode"
+            app:argType="integer"
+            android:defaultValue="2" />
+    </activity>
+</navigation>
