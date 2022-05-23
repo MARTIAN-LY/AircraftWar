@@ -5,6 +5,11 @@ import com.martian.aircraftwar.basic.GameUtils;
 
 public class BossEnemyFactory implements EnemyFactory{
 
+    static public int hp;
+    static public void setHp(int val)
+    {
+        hp = val;
+    }
     @Override
     public AbstractAircraft createEnemy() {
         return new BossEnemy(
@@ -13,6 +18,6 @@ public class BossEnemyFactory implements EnemyFactory{
                 GameUtils.BG_HEIGHT - 250,
                 100,
                 0,
-                20);
+                hp);
     }
 }

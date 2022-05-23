@@ -42,7 +42,7 @@ public class EliteEnemy extends AbstractAircraft {
         {
             propFactory = new HealPropFactory();
         }
-        res.add(propFactory.createProp(x, y, 0, -50));
+        res.add(propFactory.createProp(x, y, 0, -150));
         return res;
     }
 }

@@ -12,7 +12,7 @@ public class MobEnemyFactory implements EnemyFactory{
                 MathUtils.random(0, GameUtils.BG_WIDTH - GameUtils.MOB_IMAGE.getWidth()),
                 GameUtils.BG_HEIGHT,
                 0,
-                -100,
+                -200,
                 1);
     }
 }

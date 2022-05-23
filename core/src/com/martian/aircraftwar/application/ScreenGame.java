@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -29,7 +30,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 
-public class ScreenGame implements Screen {
+public abstract class ScreenGame implements Screen {
 
     private final AircraftWarGame game;
     private final OrthographicCamera camera;
@@ -37,6 +38,7 @@ public class ScreenGame implements Screen {
     private final Sound hit_sound;
     private final Sound hero_hit_sound;
     private final Sound prop_sound;
+    private BitmapFont bitmapFont;
     private final float bg_width;
     private final float bg_height;
     private float bottom;
@@ -59,6 +61,9 @@ public class ScreenGame implements Screen {
     private int score = 0;
     private int lasBossScore = 0;
     private boolean havBoss = false;
+    protected int enemyMaxNumber;
+    protected int BossInterval;
+    protected int eliteEnemyRate;
 
     public ScreenGame(AircraftWarGame game) {
         this.game = game;
@@ -73,6 +78,7 @@ public class ScreenGame implements Screen {
         hit_sound = Gdx.audio.newSound(Gdx.files.internal("videos/bullet_hit.wav"));
         hero_hit_sound = Gdx.audio.newSound(Gdx.files.internal("videos/hero_hit.wav"));
         prop_sound = Gdx.audio.newSound(Gdx.files.internal("videos/get_supply.wav"));
+        bitmapFont = new BitmapFont(Gdx.files.internal("fonts/font.fnt"));
 
         hero = HeroAircraft.getInstance();
         touchPos = new Vector3();
@@ -151,7 +157,7 @@ public class ScreenGame implements Screen {
                     // 英雄机已被其他子弹击毁，不再检测
                     continue;
                 }
-                if(hero.overlaps(prop) || prop.overlaps(hero))
+                if(hero.crash(prop))
                 {
                     prop_sound.play();
                     System.out.println("233");
@@ -171,7 +177,7 @@ public class ScreenGame implements Screen {
             {
                 continue;
             }
-            if(enemyAircraft.overlaps(hero))
+            if(enemyAircraft.crash(hero))
             {
                 enemyAircraft.vanish();
                 hero.decreaseHp(Integer.MAX_VALUE);
@@ -212,7 +218,7 @@ public class ScreenGame implements Screen {
                     // 避免多个子弹重复击毁同一敌机的判定
                     continue;
                 }
-                if (enemyAircraft.overlaps(bullet))
+                if (enemyAircraft.crash(bullet))
                 {
                     // 敌机撞击到英雄机子弹
                     // 敌机损失一定生命值
@@ -282,10 +288,12 @@ public class ScreenGame implements Screen {
     protected void drawAction() {
 
         //绘制背景及得分
-        game.font.draw(game.batch, "Score", 0, bg_height - 20);
         game.batch.draw(GameUtils.BACKGROUND_IMAGE_1, 0, bottom - bg_height);
         game.batch.draw(GameUtils.BACKGROUND_IMAGE_1, 0, bottom);
-
+        bitmapFont.draw(game.batch, "分数:"+score, 10, bg_height - 5);
+        bitmapFont.draw(game.batch, "血量:"+hero.getHp(), 10, bg_height - bitmapFont.getCapHeight() - 10);
+        if(!havBoss && BossInterval <= 300)
+            bitmapFont.draw(game.batch, "Boss机将在"+(BossInterval - score + lasBossScore)+"分后来临", 10, bg_height - 2 * bitmapFont.getCapHeight() - 15);
         //绘制英雄机
         game.batch.draw(hero.getImage(), hero.x, hero.y);
 
@@ -307,13 +315,13 @@ public class ScreenGame implements Screen {
     }
 
     protected void addEnemyAction() {
-        if (TimeUtils.nanoTime() - lastEnemyGen > 1000000000){
-            if(score - lasBossScore >= 100 && !havBoss)
+        if (TimeUtils.nanoTime() - lastEnemyGen > 1000000000 && enemies.size() < enemyMaxNumber){
+            if(score - lasBossScore >= BossInterval && !havBoss)
             {
                 havBoss = true;
                 enemies.add(bossEnemyFactory.createEnemy());
             }
-            else if(MathUtils.random(0, 100) <= 20)
+            else if(MathUtils.random(0, 100) <= eliteEnemyRate)
             {
                 enemies.add(eliteEnemyFactory.createEnemy());
             }

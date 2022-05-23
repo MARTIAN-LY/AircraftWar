@@ -30,7 +30,7 @@ public class EnemyShootScattered implements ShootStrategy
         List<BaseBullet> res = new LinkedList<>();
         int direction = 1;
         int speedX = -(shootNum / 2) * 10;
-        int speedY = -150;
+        int speedY = -300;
         y -= 2;
         x += 150;
         BaseBullet bullet;
