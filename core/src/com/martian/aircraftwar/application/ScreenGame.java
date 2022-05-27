@@ -134,7 +134,6 @@ public abstract class ScreenGame implements Screen {
     }
 
 
-
     @Override
     public void resize(int width, int height) {
     }
@@ -154,62 +153,47 @@ public abstract class ScreenGame implements Screen {
     @Override
     public void dispose() {
         bg_music.dispose();
-        game.dispose();
     }
 
 
     protected void crashCheckAction() {
         // Todo: 我方获得道具，道具生效
-        for(AbstractProp prop : props)
-        {
-            if(!prop.notValid())
-            {
-                if(hero.notValid())
-                {
+        for (AbstractProp prop : props) {
+            if (!prop.notValid()) {
+                if (hero.notValid()) {
                     // 英雄机已被其他子弹击毁，不再检测
                     continue;
                 }
-                if(hero.crash(prop))
-                {
+                if (hero.crash(prop)) {
                     prop_sound.play();
                     System.out.println("233");
-                    if(prop instanceof BombProp)
-                    {
+                    if (prop instanceof BombProp) {
                         score += ((BombProp) prop).effect(enemies, bullets);
-                    }
-                    else prop.effect();
+                    } else prop.effect();
                     prop.vanish();
                 }
             }
         }
-        for(AbstractAircraft enemyAircraft : enemies)
-        {
+        for (AbstractAircraft enemyAircraft : enemies) {
             // 英雄机 与 敌机 相撞，均损毁
-            if(hero.notValid())
-            {
+            if (hero.notValid()) {
                 continue;
             }
-            if(enemyAircraft.crash(hero))
-            {
+            if (enemyAircraft.crash(hero)) {
                 enemyAircraft.vanish();
                 hero.decreaseHp(Integer.MAX_VALUE);
             }
         }
         // TODO 敌机子弹攻击英雄
-        for(BaseBullet bullet : bullets)
-        {
-            if(bullet.notValid() || !(bullet instanceof EnemyBullet))
-            {
+        for (BaseBullet bullet : bullets) {
+            if (bullet.notValid() || !(bullet instanceof EnemyBullet)) {
                 continue;
             }
-            if(hero.notValid())
-            {
+            if (hero.notValid()) {
                 // 英雄机已被其他子弹击毁，不再检测
-
-                dispose();
+                continue;
             }
-            if(hero.crash(bullet))
-            {
+            if (hero.crash(bullet)) {
                 // 英雄机撞击到敌机子弹
                 // 英雄机损失一定生命值
                 hero.decreaseHp(bullet.getPower());
@@ -217,29 +201,23 @@ public abstract class ScreenGame implements Screen {
                 hero_hit_sound.play();
             }
         }
-        for(BaseBullet bullet : bullets)
-        {
-            if (bullet.notValid()|| !(bullet instanceof HeroBullet))
-            {
+        for (BaseBullet bullet : bullets) {
+            if (bullet.notValid() || !(bullet instanceof HeroBullet)) {
                 continue;
             }
-            for (AbstractAircraft enemyAircraft : enemies)
-            {
-                if (enemyAircraft.notValid())
-                {
+            for (AbstractAircraft enemyAircraft : enemies) {
+                if (enemyAircraft.notValid()) {
                     // 已被其他子弹击毁的敌机，不再检测
                     // 避免多个子弹重复击毁同一敌机的判定
                     continue;
                 }
-                if (enemyAircraft.crash(bullet))
-                {
+                if (enemyAircraft.crash(bullet)) {
                     // 敌机撞击到英雄机子弹
                     // 敌机损失一定生命值
                     hit_sound.play();
                     enemyAircraft.decreaseHp(bullet.getPower());
                     bullet.vanish();
-                    if (enemyAircraft.notValid())
-                    {
+                    if (enemyAircraft.notValid()) {
                         // TODO 获得分数，产生道具补给
                         score += 10;
                         props.addAll(enemyAircraft.dropProp());
@@ -280,7 +258,7 @@ public abstract class ScreenGame implements Screen {
         for (AbstractAircraft enemy : enemies) {
             enemy.forward();
 
-            if (enemy.x + enemy.height <= 0){
+            if (enemy.x + enemy.height <= 0) {
                 enemy.vanish();
             }
         }
@@ -303,10 +281,10 @@ public abstract class ScreenGame implements Screen {
         //绘制背景及得分
         game.batch.draw(background, 0, bottom - bg_height);
         game.batch.draw(background, 0, bottom);
-        bitmapFont.draw(game.batch, "分数:"+score, 10, bg_height - 5);
-        bitmapFont.draw(game.batch, "血量:"+hero.getHp(), 10, bg_height - bitmapFont.getCapHeight() - 10);
-        if(!havBoss && BossInterval <= 300)
-            bitmapFont.draw(game.batch, "Boss机将在"+(BossInterval - score + lasBossScore)+"分后来临", 10, bg_height - 2 * bitmapFont.getCapHeight() - 15);
+        bitmapFont.draw(game.batch, "分数:" + score, 10, bg_height - 5);
+        bitmapFont.draw(game.batch, "血量:" + hero.getHp(), 10, bg_height - bitmapFont.getCapHeight() - 10);
+        if (!havBoss && BossInterval <= 300)
+            bitmapFont.draw(game.batch, "Boss机将在" + (BossInterval - score + lasBossScore) + "分后来临", 10, bg_height - 2 * bitmapFont.getCapHeight() - 15);
         //绘制英雄机
         game.batch.draw(hero.getImage(), hero.x, hero.y);
 
@@ -317,56 +295,48 @@ public abstract class ScreenGame implements Screen {
 
         //绘制子弹
         for (BaseBullet bullet : bullets) {
-            game.batch.draw(bullet.getImage(),bullet.x,bullet.y);
+            game.batch.draw(bullet.getImage(), bullet.x, bullet.y);
         }
 
         //绘制道具
-        for(AbstractProp prop : props)
-        {
+        for (AbstractProp prop : props) {
             game.batch.draw(prop.getImage(), prop.x, prop.y);
         }
     }
 
     protected void addEnemyAction() {
-        if (TimeUtils.nanoTime() - lastEnemyGen > 1000000000 && enemies.size() < enemyMaxNumber){
-            if(score - lasBossScore >= BossInterval && !havBoss)
-            {
+        if (TimeUtils.nanoTime() - lastEnemyGen > 1000000000 && enemies.size() < enemyMaxNumber) {
+            if (score - lasBossScore >= BossInterval && !havBoss) {
                 havBoss = true;
                 enemies.add(bossEnemyFactory.createEnemy());
-            }
-            else if(MathUtils.random(0, 100) <= eliteEnemyRate)
-            {
+            } else if (MathUtils.random(0, 100) <= eliteEnemyRate) {
                 enemies.add(eliteEnemyFactory.createEnemy());
-            }
-            else
-            {
+            } else {
                 enemies.add(mobEnemyFactory.createEnemy());
             }
             lastEnemyGen = TimeUtils.nanoTime();
         }
     }
 
-    protected void shootAction(){
-        if (TimeUtils.nanoTime() - lastHeroShoot > 1000000000){
+    protected void shootAction() {
+        if (TimeUtils.nanoTime() - lastHeroShoot > 1000000000) {
             bullets.addAll(hero.shoot());
             lastHeroShoot = TimeUtils.nanoTime();
         }
-        if (TimeUtils.nanoTime() - lastEnemyShoot > 1000000000){
-            for(AbstractAircraft enemy : enemies)
-            {
+        if (TimeUtils.nanoTime() - lastEnemyShoot > 1000000000) {
+            for (AbstractAircraft enemy : enemies) {
                 bullets.addAll(enemy.shoot());
             }
             lastEnemyShoot = TimeUtils.nanoTime();
         }
     }
 
-    protected void clearAction(){
+    protected void clearAction() {
         for (Iterator<AbstractAircraft> iterator = enemies.iterator(); iterator.hasNext(); ) {
             AbstractAircraft aircraft = iterator.next();
             //超出屏幕或not valid
             if (aircraft.y + aircraft.height < 0 || aircraft.notValid()) {
-                if(aircraft instanceof BossEnemy)
-                {
+                if (aircraft instanceof BossEnemy) {
                     lasBossScore = score;
                     havBoss = false;
                 }
@@ -379,11 +349,9 @@ public abstract class ScreenGame implements Screen {
         props.removeIf(prop -> prop.y + prop.height < 0 || prop.notValid());
     }
 
-    public void gameOverCheck()
-    {
-        if(hero.notValid())
-        {
-            System.exit(0);
+    public void gameOverCheck() {
+        if (hero.notValid()) {
+            game.communicate.gotoRankList();
         }
     }
 }

@@ -40,6 +40,5 @@ public class AircraftWarGame extends Game {
     public void dispose() {
         batch.dispose();
         font.dispose();
-        communicate.gotoRankList();
     }
 }
