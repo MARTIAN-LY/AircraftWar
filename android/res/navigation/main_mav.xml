@@ -18,6 +18,9 @@
         <action
             android:id="@+id/nav_menuToRank"
             app:destination="@id/rankActivity" />
+        <action
+            android:id="@+id/action_mainMenu_to_shopActivity"
+            app:destination="@id/shopActivity" />
     </fragment>
     <fragment
         android:id="@+id/modeSelect"
@@ -48,4 +51,9 @@
             app:argType="integer"
             android:defaultValue="2" />
     </activity>
+    <activity
+        android:id="@+id/shopActivity"
+        android:name="com.martian.aircraftwar.shop.ShopActivity"
+        android:label="activity_shop"
+        tools:layout="@layout/activity_shop" />
 </navigation>

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.Navigation
+import com.martian.aircraftwar.LoginActivity
 import com.martian.aircraftwar.R
 import com.martian.aircraftwar.shop.ShopActivity
 import com.martian.aircraftwar.databinding.FragmentMainMenuBinding
@@ -37,6 +38,7 @@ class MainMenu : Fragment() {
         }
 
         binding.buttonPropShop.setOnClickListener {
+            startActivity(Intent(activity,LoginActivity::class.java))
             Toast.makeText(activity, "功能正在开发中，敬请期待！！！", Toast.LENGTH_SHORT).show()
         }
 

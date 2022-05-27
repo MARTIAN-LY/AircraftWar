@@ -143,6 +143,7 @@ public abstract class ScreenGame implements Screen {
     @Override
     public void dispose() {
         bg_music.dispose();
+        game.dispose();
     }
 
 
@@ -193,7 +194,8 @@ public abstract class ScreenGame implements Screen {
             if(hero.notValid())
             {
                 // 英雄机已被其他子弹击毁，不再检测
-                continue;
+
+                dispose();
             }
             if(hero.crash(bullet))
             {
