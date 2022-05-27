@@ -11,7 +11,7 @@ import java.util.List;
 
 public class HeroShootScattered implements ShootStrategy
 {
-    static private Sound shootSound = Gdx.audio.newSound(Gdx.files.internal("videos/bullet.wav"));
+    static private final Sound shootSound = Gdx.audio.newSound(Gdx.files.internal("videos/bullet.wav"));
 
     @Override
     public List<BaseBullet> doShoot(float x, float y)
