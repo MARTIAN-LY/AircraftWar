@@ -1,5 +1,7 @@
 package com.martian.aircraftwar.application;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.martian.aircraftwar.aircraft.BossEnemyFactory;
 import com.martian.aircraftwar.aircraft.EliteEnemyFactory;
 import com.martian.aircraftwar.shoot.EnemyShootDirect;
@@ -10,6 +12,7 @@ public class ScreenGameHard extends ScreenGame{
     public ScreenGameHard(AircraftWarGame game)
     {
         super(game);
+        this.background = new Texture(Gdx.files.internal("images/bg3.jpg"));
         this.enemyMaxNumber = 6;
         this.BossInterval = 100;
         this.eliteEnemyRate = 50;

@@ -1,25 +1,26 @@
 package com.martian.aircraftwar.application;
 
+import static com.badlogic.gdx.scenes.scene2d.InputEvent.Type.exit;
+
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.martian.aircraftwar.aircraft.AbstractAircraft;
 import com.martian.aircraftwar.aircraft.BossEnemy;
 import com.martian.aircraftwar.aircraft.BossEnemyFactory;
-import com.martian.aircraftwar.aircraft.EliteEnemy;
 import com.martian.aircraftwar.aircraft.EliteEnemyFactory;
 import com.martian.aircraftwar.aircraft.HeroAircraft;
 import com.martian.aircraftwar.aircraft.MobEnemyFactory;
-import com.martian.aircraftwar.basic.AbstractFlyingObject;
-import com.martian.aircraftwar.basic.GameUtils;
 import com.martian.aircraftwar.bullet.BaseBullet;
 import com.martian.aircraftwar.bullet.EnemyBullet;
 import com.martian.aircraftwar.bullet.HeroBullet;
@@ -31,6 +32,11 @@ import java.util.LinkedList;
 
 
 public abstract class ScreenGame implements Screen {
+
+    public float BG_WIDTH = 512;
+    public float BG_HEIGHT = 768;
+
+    //图片
 
     private final AircraftWarGame game;
     private final OrthographicCamera camera;
@@ -64,13 +70,17 @@ public abstract class ScreenGame implements Screen {
     protected int enemyMaxNumber;
     protected int BossInterval;
     protected int eliteEnemyRate;
+    protected Texture background;
+
+    private MyInputProcessor inputProcessor = new MyInputProcessor();
 
     public ScreenGame(AircraftWarGame game) {
+        //Gdx.input.setCatchKey(Input.Keys.BACK, true);
         this.game = game;
 
         //背景图片宽高
-        bg_width = GameUtils.BG_WIDTH;
-        bg_height = GameUtils.BG_HEIGHT;
+        bg_width = BG_WIDTH;
+        bg_height = BG_HEIGHT;
         bottom = bg_height;
 
         // load music
@@ -115,6 +125,7 @@ public abstract class ScreenGame implements Screen {
         moveAction();
         crashCheckAction();
         clearAction();
+        gameOverCheck();
 
         //开始绘图
         game.batch.begin();
@@ -288,8 +299,8 @@ public abstract class ScreenGame implements Screen {
     protected void drawAction() {
 
         //绘制背景及得分
-        game.batch.draw(GameUtils.BACKGROUND_IMAGE_1, 0, bottom - bg_height);
-        game.batch.draw(GameUtils.BACKGROUND_IMAGE_1, 0, bottom);
+        game.batch.draw(background, 0, bottom - bg_height);
+        game.batch.draw(background, 0, bottom);
         bitmapFont.draw(game.batch, "分数:"+score, 10, bg_height - 5);
         bitmapFont.draw(game.batch, "血量:"+hero.getHp(), 10, bg_height - bitmapFont.getCapHeight() - 10);
         if(!havBoss && BossInterval <= 300)
@@ -366,4 +377,11 @@ public abstract class ScreenGame implements Screen {
         props.removeIf(prop -> prop.y + prop.height < 0 || prop.notValid());
     }
 
+    public void gameOverCheck()
+    {
+        if(hero.notValid())
+        {
+            System.exit(0);
+        }
+    }
 }

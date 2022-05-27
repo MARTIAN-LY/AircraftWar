@@ -1,17 +1,18 @@
 package com.martian.aircraftwar.aircraft;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.martian.aircraftwar.basic.GameUtils;
 import com.martian.aircraftwar.shoot.HeroShootDirect;
-import com.martian.aircraftwar.shoot.HeroShootScattered;
 
 public class HeroAircraft extends AbstractAircraft {
-
+    private static int BG_WIDTH = 512;
+    private static int BG_HEIGHT = 768;
     /**
      * 英雄机单例模式
      */
-    public static HeroAircraft instance = new HeroAircraft(GameUtils.HERO_IMAGE,
-            (GameUtils.BG_WIDTH - GameUtils.HERO_IMAGE.getWidth()) / 2,
+    private static Texture HERO_IMAGE = new Texture(Gdx.files.internal("images/hero.png"));
+    public static HeroAircraft instance = new HeroAircraft(HERO_IMAGE,
+            (BG_WIDTH - HERO_IMAGE.getWidth()) / 2,
             0, 0, 0, 20);
 
     public static HeroAircraft getInstance() {

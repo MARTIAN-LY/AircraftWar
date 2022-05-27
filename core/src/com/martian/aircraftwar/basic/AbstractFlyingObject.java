@@ -9,7 +9,7 @@ public abstract class AbstractFlyingObject extends Rectangle {
     /**
      * 图片
      */
-    Texture image;
+    protected Texture image;
     protected float speedX;
     protected float speedY;
     boolean isValid;
@@ -29,7 +29,7 @@ public abstract class AbstractFlyingObject extends Rectangle {
      * 可飞行对象根据速度移动
      * 若飞行对象触碰到横向边界，横向速度反向
      */
-    private final float maxRight = GameUtils.BG_WIDTH;
+    private final float maxRight = 512;
 
     public void forward() {
         x += Gdx.graphics.getDeltaTime() * speedX;

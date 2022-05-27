@@ -1,5 +1,6 @@
 package com.martian.aircraftwar.aircraft;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.martian.aircraftwar.shoot.EnemyShootNothing;
 

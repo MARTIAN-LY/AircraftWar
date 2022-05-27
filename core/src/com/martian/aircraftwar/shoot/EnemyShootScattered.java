@@ -15,6 +15,8 @@ public class EnemyShootScattered implements ShootStrategy
     static int shootNum = 5;
     static int nextMissile = 5;
     static Sound missileSound = Gdx.audio.newSound(Gdx.files.internal("videos/missile.wav"));
+    private static Texture ENEMY_BULLET_IMAGE = new Texture(Gdx.files.internal("images/bullet_enemy.png"));
+    private static Texture MISSILE_IMAGE = new Texture(Gdx.files.internal("images/missile.png"));
 
     static public void setShootNum(int num)
     {
@@ -38,7 +40,7 @@ public class EnemyShootScattered implements ShootStrategy
         {
             // 子弹发射位置相对飞机位置向前偏移
             // 多个子弹横向分散
-            bullet = new EnemyBullet(new Texture(Gdx.files.internal("images/bullet_enemy.png")), x + (i * 2 - shootNum + 1) * 10, y, speedX, speedY);
+            bullet = new EnemyBullet(ENEMY_BULLET_IMAGE, x + (i * 2 - shootNum + 1) * 10, y, speedX, speedY);
             res.add(bullet);
             speedX += 10;
         }
@@ -49,7 +51,7 @@ public class EnemyShootScattered implements ShootStrategy
             {
                 for(int i = 0; i < 3; i++)
                 {
-                    bullet = new EnemyMissile(new Texture(Gdx.files.internal("images/missile.png")), x + (i - 1) * 60, y, 0, speedY * 2);
+                    bullet = new EnemyMissile(MISSILE_IMAGE, x + (i - 1) * 60, y, 0, speedY * 2);
                     res.add(bullet);
                 }
                 missileSound.play();
