@@ -14,7 +14,8 @@
             android:id="@+id/nav_mainToModeSelect"
             app:destination="@id/modeSelect"
             app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right" />
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popExitAnim="@android:anim/fade_out" />
         <action
             android:id="@+id/nav_menuToRank"
             app:destination="@id/rankActivity" />
