@@ -17,16 +17,16 @@ class RankActivity : AppCompatActivity() {
         lateinit var name:String;
     }
     override fun onCreate(savedInstanceState: Bundle?) {
-//        rankingDao = RankingDao();
-//        if(TmpScore.score != -1)
-//        {
-//            rankingDao.doAdd(Ranking(name, TmpScore.score, TmpScore.time));
-//            try {
-//                rankingDao.saveToFile()
-//            } catch (ex: IOException) {
-//                ex.printStackTrace()
-//            }
-//        }
+        rankingDao = RankingDao();
+        if(TmpScore.score != -1)
+        {
+            rankingDao.doAdd(Ranking(name, TmpScore.score, TmpScore.time));
+            try {
+                rankingDao.saveToFile()
+            } catch (ex: IOException) {
+                ex.printStackTrace()
+            }
+        }
         super.onCreate(savedInstanceState)
         binding = ActivityRankBinding.inflate(layoutInflater)
         setContentView(binding.root)

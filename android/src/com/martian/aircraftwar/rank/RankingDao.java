@@ -1,5 +1,8 @@
 package com.martian.aircraftwar.rank;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -15,29 +18,53 @@ import java.util.Scanner;
 public class RankingDao
 {
     private ArrayList<Ranking> rankings;
+    private FileHandle handle = Gdx.files.local("rankingData/rankings.txt");
     public RankingDao()
     {
-        Scanner dataIn = null;
-        try
-        {
-            dataIn = new Scanner(Paths.get("rankingData/Rankings.txt"), String.valueOf(StandardCharsets.UTF_8));
-        } catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
         rankings = new ArrayList<>();
-        System.out.println("GGGGGGG");
-        while(dataIn != null && dataIn.hasNext())
+        String tmp = null;
+        if(handle.exists())
         {
-            String name = dataIn.next();
-            System.out.println(name);
-            int score = dataIn.nextInt();
-            long time = dataIn.nextLong();
-            Ranking ranking = new Ranking(name, score, time);
-            rankings.add(ranking);
+            tmp = handle.readString();
+        }
+        if(tmp != null)
+        {
+            String name = null, cur;
+            int score = 0;
+            long time = 0;
+            int cnt = 0;
+            cur = "";
+            for(int i = 0; i < tmp.length(); i++)
+            {
+                if(tmp.charAt(i) == ' ')
+                {
+                    if(cnt == 0 && !cur.equals(""))
+                    {
+                        name = cur;
+                        cur = "";
+                        ++cnt;
+                    }
+                    else if(cnt == 1 && !cur.equals(""))
+                    {
+                        score = Integer.parseInt(cur);
+                        cur = "";
+                        ++cnt;
+                    }
+                    else if(cnt == 2 && !cur.equals(""))
+                    {
+                        time = Long.parseLong(cur);
+                        cur = "";
+                        ++cnt;
+                    }
+                    if(cnt == 3)
+                    {
+                        rankings.add(new Ranking(name, score, time));
+                        cnt = 0;
+                        System.out.println(name + " " + score + " " + time);
+                    }
+                }
+                else cur += tmp.charAt(i);
+            }
         }
     }
     public void doAdd(Ranking ranking)
@@ -51,7 +78,6 @@ public class RankingDao
                 ps = i;
             }
         }
-        System.out.println(ps + 1);
         rankings.add(ps + 1, ranking);
     }
     public void doDelete(int index)
@@ -64,15 +90,14 @@ public class RankingDao
     }
     public void saveToFile() throws IOException
     {
-        System.out.println("FFFFFFFFFFFFFFK");
-        PrintWriter dateOut = new PrintWriter("rankingData/Rankings.txt", String.valueOf(StandardCharsets.UTF_8));
+        handle.delete();
         for(Ranking ranking: rankings)
         {
-            dateOut.print(ranking.getName() + " ");
-            dateOut.print(ranking.getScore());
-            dateOut.print(" ");
-            dateOut.println(ranking.getTime());
+            handle.writeString(ranking.getName() + " ", true);
+            handle.writeString(ranking.getScore() + " ", true);
+            handle.writeString(ranking.getTime() + " ", true);
         }
-        dateOut.flush();
+        String ccc = handle.readString();
+        System.out.println(ccc);
     }
 }
