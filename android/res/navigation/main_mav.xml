@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainMenu"
-        android:name="com.martian.aircraftwar.fragments.MainMenu"
+        android:name="com.martian.aircraftwar.MainMenuFragment"
         android:label="fragment_main_menu"
         tools:layout="@layout/fragment_main_menu" >
         <action
@@ -17,23 +17,20 @@
             app:exitAnim="@android:anim/slide_out_right"
             app:popExitAnim="@android:anim/fade_out" />
         <action
-            android:id="@+id/nav_menuToRank"
+            android:id="@+id/nav_menu_to_rank"
             app:destination="@id/rankActivity" />
         <action
-            android:id="@+id/action_mainMenu_to_shopActivity"
+            android:id="@+id/nav_menu_to_shop"
             app:destination="@id/shopActivity" />
+        <action
+            android:id="@+id/nav_menu_to_online"
+            app:destination="@id/onlineActivity" />
     </fragment>
     <fragment
         android:id="@+id/modeSelect"
-        android:name="com.martian.aircraftwar.fragments.ModeSelect"
+        android:name="com.martian.aircraftwar.game.ModeSelectFragment"
         android:label="fragment_mode_select"
         tools:layout="@layout/fragment_mode_select" >
-        <action
-            android:id="@+id/nav_modeSelectToMain"
-            app:destination="@id/mainMenu"
-            app:enterAnim="@android:anim/fade_in"
-            app:exitAnim="@android:anim/fade_out"
-            app:popExitAnim="@android:anim/fade_out" />
         <action
             android:id="@+id/nav_mode_to_game"
             app:destination="@id/androidLauncher" />
@@ -45,7 +42,7 @@
         tools:layout="@layout/activity_rank" />
     <activity
         android:id="@+id/androidLauncher"
-        android:name="com.martian.aircraftwar.AndroidLauncher"
+        android:name="com.martian.aircraftwar.game.AndroidLauncher"
         android:label="AndroidLauncher" >
         <argument
             android:name="mode"
@@ -57,4 +54,9 @@
         android:name="com.martian.aircraftwar.shop.ShopActivity"
         android:label="activity_shop"
         tools:layout="@layout/activity_shop" />
+    <activity
+        android:id="@+id/onlineActivity"
+        android:name="com.martian.aircraftwar.OnlineActivity"
+        android:label="activity_online"
+        tools:layout="@layout/activity_online" />
 </navigation>

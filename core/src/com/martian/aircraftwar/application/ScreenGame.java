@@ -24,9 +24,11 @@ import com.martian.aircraftwar.aircraft.MobEnemyFactory;
 import com.martian.aircraftwar.bullet.BaseBullet;
 import com.martian.aircraftwar.bullet.EnemyBullet;
 import com.martian.aircraftwar.bullet.HeroBullet;
+import com.martian.aircraftwar.data.TmpScore;
 import com.martian.aircraftwar.prop.AbstractProp;
 import com.martian.aircraftwar.prop.BombProp;
 
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -351,7 +353,9 @@ public abstract class ScreenGame implements Screen {
 
     public void gameOverCheck() {
         if (hero.notValid()) {
-            game.communicate.gotoRankList();
+            TmpScore.score = score;
+            TmpScore.date = new Date();
+            game.communicate.gotoOnceScore();
         }
     }
 }

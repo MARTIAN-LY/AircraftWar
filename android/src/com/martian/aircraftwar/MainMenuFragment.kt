@@ -1,6 +1,5 @@
-package com.martian.aircraftwar.fragments
+package com.martian.aircraftwar
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,12 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.Navigation
-import com.martian.aircraftwar.LoginActivity
-import com.martian.aircraftwar.R
-import com.martian.aircraftwar.shop.ShopActivity
 import com.martian.aircraftwar.databinding.FragmentMainMenuBinding
 
-class MainMenu : Fragment() {
+class MainMenuFragment : Fragment() {
 
     private var _binding: FragmentMainMenuBinding? = null
 
@@ -34,16 +30,17 @@ class MainMenu : Fragment() {
         }
 
         binding.buttonOnlinePK.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.nav_menu_to_online)
             Toast.makeText(activity, "功能正在开发中，敬请期待！！！", Toast.LENGTH_SHORT).show()
         }
 
         binding.buttonPropShop.setOnClickListener {
-            startActivity(Intent(activity,LoginActivity::class.java))
+            Navigation.findNavController(view).navigate(R.id.nav_menu_to_shop)
             Toast.makeText(activity, "功能正在开发中，敬请期待！！！", Toast.LENGTH_SHORT).show()
         }
 
         binding.buttonRankingList.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.nav_menuToRank)
+            Navigation.findNavController(view).navigate(R.id.nav_menu_to_rank)
         }
         return view
     }

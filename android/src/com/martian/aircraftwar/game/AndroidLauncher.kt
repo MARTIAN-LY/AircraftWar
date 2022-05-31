@@ -1,4 +1,4 @@
-package com.martian.aircraftwar
+package com.martian.aircraftwar.game
 
 import com.badlogic.gdx.backends.android.AndroidApplication
 import android.os.Bundle
@@ -16,6 +16,11 @@ class AndroidLauncher : AndroidApplication() {
         val config = AndroidApplicationConfiguration()
         config.useAccelerometer = false
         config.useCompass = false
-        initialize(AircraftWarGame(args.mode, Communication(this)), config);
+        initialize(
+            AircraftWarGame(
+                args.mode,
+                Communication(this)
+            ), config
+        )
     }
 }
