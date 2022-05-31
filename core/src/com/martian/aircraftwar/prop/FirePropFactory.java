@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class FirePropFactory implements PropFactory
 {
-    private static Texture FIRE_PROP_IMAGE = new Texture(Gdx.files.internal("images/prop_bullet.png"));
+    private Texture FIRE_PROP_IMAGE = new Texture(Gdx.files.internal("images/prop_bullet.png"));
     @Override
     public AbstractProp createProp(float locationX, float locationY, float speedX, float speedY)
     {

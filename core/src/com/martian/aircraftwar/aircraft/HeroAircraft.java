@@ -5,20 +5,22 @@ import com.badlogic.gdx.graphics.Texture;
 import com.martian.aircraftwar.shoot.HeroShootDirect;
 
 public class HeroAircraft extends AbstractAircraft {
-    private static int BG_WIDTH = 512;
-    private static int BG_HEIGHT = 768;
-    /**
-     * 英雄机单例模式
-     */
-    private static Texture HERO_IMAGE = new Texture(Gdx.files.internal("images/hero.png"));
-    public static HeroAircraft instance = new HeroAircraft(HERO_IMAGE,
-            (BG_WIDTH - HERO_IMAGE.getWidth()) / 2,
-            0, 0, 0, 20);
 
-    public static HeroAircraft getInstance() {
+    static public HeroAircraft instance;
+    static public HeroAircraft getInstance()
+    {
+        if(instance == null)
+        {
+            instance = new HeroAircraft(new Texture(Gdx.files.internal("images/hero.png")), (512 - 100) / 2,
+                    0, 0, 0, 20);
+
+        }
         return instance;
     }
-
+    static public void refresh()
+    {
+        instance = null;
+    }
     private HeroAircraft(Texture image, float locationX, float locationY, float speedX, float speedY, int hp) {
         super(image, locationX, locationY, speedX, speedY, hp);
         shootStrategy = new HeroShootDirect();

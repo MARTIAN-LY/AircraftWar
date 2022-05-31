@@ -24,9 +24,11 @@ import com.martian.aircraftwar.aircraft.MobEnemyFactory;
 import com.martian.aircraftwar.bullet.BaseBullet;
 import com.martian.aircraftwar.bullet.EnemyBullet;
 import com.martian.aircraftwar.bullet.HeroBullet;
+import com.martian.aircraftwar.data.TmpScore;
 import com.martian.aircraftwar.prop.AbstractProp;
 import com.martian.aircraftwar.prop.BombProp;
 
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -75,7 +77,8 @@ public abstract class ScreenGame implements Screen {
     private MyInputProcessor inputProcessor = new MyInputProcessor();
 
     public ScreenGame(AircraftWarGame game) {
-        //Gdx.input.setCatchKey(Input.Keys.BACK, true);
+        Gdx.input.setCatchKey(Input.Keys.BACK, true);
+
         this.game = game;
 
         //背景图片宽高
@@ -89,12 +92,15 @@ public abstract class ScreenGame implements Screen {
         hero_hit_sound = Gdx.audio.newSound(Gdx.files.internal("videos/hero_hit.wav"));
         prop_sound = Gdx.audio.newSound(Gdx.files.internal("videos/get_supply.wav"));
         bitmapFont = new BitmapFont(Gdx.files.internal("fonts/font.fnt"));
-
+        HeroAircraft.refresh();
         hero = HeroAircraft.getInstance();
         touchPos = new Vector3();
         enemies = new LinkedList<>();
         bullets = new LinkedList<>();
         props = new LinkedList<>();
+        enemies.clear();
+        bullets.clear();
+        props.clear();
         lastEnemyGen = 0;
         lastHeroShoot = 0;
         lastEnemyShoot = 0;
@@ -351,6 +357,8 @@ public abstract class ScreenGame implements Screen {
 
     public void gameOverCheck() {
         if (hero.notValid()) {
+            TmpScore.score = score;
+            TmpScore.time = System.currentTimeMillis();
             game.communicate.gotoRankList();
         }
     }

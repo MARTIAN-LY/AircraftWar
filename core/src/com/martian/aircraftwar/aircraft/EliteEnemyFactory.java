@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.MathUtils;
 public class EliteEnemyFactory implements EnemyFactory{
     private static int BG_WIDTH = 512;
     private static int BG_HEIGHT = 768;
-    private static Texture ELITE_IMAGE = new Texture(Gdx.files.internal("images/elite.png"));
+    private Texture ELITE_IMAGE = new Texture(Gdx.files.internal("images/elite.png"));
     static public int hp;
     static public void setHp(int val)
     {

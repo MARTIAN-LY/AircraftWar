@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.martian.aircraftwar.aircraft.HeroAircraft;
 import com.martian.aircraftwar.shoot.HeroShootDirect;
 import com.martian.aircraftwar.shoot.HeroShootScattered;
+import com.martian.aircraftwar.application.ScreenGame;
 
 public class FireProp extends AbstractProp
 {

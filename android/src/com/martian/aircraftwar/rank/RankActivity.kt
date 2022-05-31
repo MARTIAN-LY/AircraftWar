@@ -1,16 +1,32 @@
 package com.martian.aircraftwar.rank
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.martian.aircraftwar.data.TmpScore
 import com.martian.aircraftwar.databinding.ActivityRankBinding
+import java.io.IOException
 
 class RankActivity : AppCompatActivity() {
 
+    private lateinit var rankingDao:RankingDao;
     private lateinit var binding: ActivityRankBinding
+    companion object{
+        lateinit var name:String;
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
+//        rankingDao = RankingDao();
+//        if(TmpScore.score != -1)
+//        {
+//            rankingDao.doAdd(Ranking(name, TmpScore.score, TmpScore.time));
+//            try {
+//                rankingDao.saveToFile()
+//            } catch (ex: IOException) {
+//                ex.printStackTrace()
+//            }
+//        }
         super.onCreate(savedInstanceState)
         binding = ActivityRankBinding.inflate(layoutInflater)
         setContentView(binding.root)

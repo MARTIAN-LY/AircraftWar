@@ -11,7 +11,7 @@ import java.util.List;
 public class HeroShootDirect implements ShootStrategy
 {
     static int shootNum;
-    static private Texture HERO_BULLET_IMAGE = new Texture(Gdx.files.internal("images/bullet_hero.png"));
+    private Texture HERO_BULLET_IMAGE = new Texture(Gdx.files.internal("images/bullet_hero.png"));
 
     static public void setShootNum(int num)
     {
