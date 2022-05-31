@@ -13,13 +13,24 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.martian.aircraftwar.R
 import com.martian.aircraftwar.data.TmpScore
 import com.martian.aircraftwar.databinding.ActivityRankBinding
+import java.io.IOException
 
 
 class RankActivity : AppCompatActivity() {
 
+    private lateinit var rankingDao:RankingDao;
     private lateinit var binding: ActivityRankBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
+//        rankingDao = RankingDao();
+//        if(TmpScore.score != -1)
+//        {
+//            rankingDao.doAdd(Ranking(name, TmpScore.score, TmpScore.time));
+//            try {
+//                rankingDao.saveToFile()
+//            } catch (ex: IOException) {
+//                ex.printStackTrace()
+//            }
+//        }
         super.onCreate(savedInstanceState)
         binding = ActivityRankBinding.inflate(layoutInflater)
         setContentView(binding.root)

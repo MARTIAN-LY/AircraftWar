@@ -77,5 +77,14 @@ public abstract class AbstractFlyingObject extends Rectangle {
     public void setSpeedY(float speedY) {
         this.speedY = speedY;
     }
+
+    public void setValid()
+    {this.isValid = true;}
+
+    public void setLocation(float x, float y)
+    {
+        this.x = x;
+        this.y = y;
+    }
 }
 

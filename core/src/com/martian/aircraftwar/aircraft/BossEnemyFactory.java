@@ -8,7 +8,7 @@ public class BossEnemyFactory implements EnemyFactory{
 
     private static int BG_WIDTH = 512;
     private static int BG_HEIGHT = 768;
-    private static Texture BOSS_IMAGE = new Texture(Gdx.files.internal("images/boss.png"));
+    private Texture BOSS_IMAGE = new Texture(Gdx.files.internal("images/boss.png"));
     static public int hp;
     static public void setHp(int val)
     {

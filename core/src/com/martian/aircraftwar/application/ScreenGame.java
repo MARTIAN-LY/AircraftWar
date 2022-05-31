@@ -77,7 +77,8 @@ public abstract class ScreenGame implements Screen {
     private MyInputProcessor inputProcessor = new MyInputProcessor();
 
     public ScreenGame(AircraftWarGame game) {
-        //Gdx.input.setCatchKey(Input.Keys.BACK, true);
+        Gdx.input.setCatchKey(Input.Keys.BACK, true);
+
         this.game = game;
 
         //背景图片宽高
@@ -91,12 +92,15 @@ public abstract class ScreenGame implements Screen {
         hero_hit_sound = Gdx.audio.newSound(Gdx.files.internal("videos/hero_hit.wav"));
         prop_sound = Gdx.audio.newSound(Gdx.files.internal("videos/get_supply.wav"));
         bitmapFont = new BitmapFont(Gdx.files.internal("fonts/font.fnt"));
-
+        HeroAircraft.refresh();
         hero = HeroAircraft.getInstance();
         touchPos = new Vector3();
         enemies = new LinkedList<>();
         bullets = new LinkedList<>();
         props = new LinkedList<>();
+        enemies.clear();
+        bullets.clear();
+        props.clear();
         lastEnemyGen = 0;
         lastHeroShoot = 0;
         lastEnemyShoot = 0;

@@ -15,8 +15,8 @@ public class EnemyShootScattered implements ShootStrategy
     static int shootNum = 5;
     static int nextMissile = 5;
     static Sound missileSound = Gdx.audio.newSound(Gdx.files.internal("videos/missile.wav"));
-    private static Texture ENEMY_BULLET_IMAGE = new Texture(Gdx.files.internal("images/bullet_enemy.png"));
-    private static Texture MISSILE_IMAGE = new Texture(Gdx.files.internal("images/missile.png"));
+    private Texture ENEMY_BULLET_IMAGE = new Texture(Gdx.files.internal("images/bullet_enemy.png"));
+    private Texture MISSILE_IMAGE = new Texture(Gdx.files.internal("images/missile.png"));
 
     static public void setShootNum(int num)
     {

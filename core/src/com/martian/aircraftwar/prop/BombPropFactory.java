@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class BombPropFactory implements PropFactory
 {
-    private static Texture BOMB_PROP_IMAGE = new Texture(Gdx.files.internal("images/prop_bomb.png"));
+    private Texture BOMB_PROP_IMAGE = new Texture(Gdx.files.internal("images/prop_bomb.png"));
     @Override
     public AbstractProp createProp(float locationX, float locationY, float speedX, float speedY)
     {

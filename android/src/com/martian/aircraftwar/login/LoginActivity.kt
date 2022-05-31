@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.widget.Toast
 import com.martian.aircraftwar.MainActivity
 import com.martian.aircraftwar.databinding.ActivityLoginBinding
+import com.martian.aircraftwar.rank.RankActivity
 
 class LoginActivity : AppCompatActivity() {
 
@@ -23,6 +24,7 @@ class LoginActivity : AppCompatActivity() {
         preferences = this.getSharedPreferences("userInfo", MODE_PRIVATE)
         val name = preferences.getString("username", null)
         val pass = preferences.getString("password", null)
+        val name = preferences.getString("username", null)
 
         /** 初次登录，需要输用户名、密码 */
         if (name == null && pass == null) {
@@ -37,6 +39,7 @@ class LoginActivity : AppCompatActivity() {
                     edit.putString("username", username)
                     edit.putString("password", password)
                     edit.commit()
+                    RankActivity.name = username;
                     Toast.makeText(this, "欢迎你,$username", Toast.LENGTH_SHORT).show()
                     startActivity(Intent(this, MainActivity::class.java))
                     this.finish()

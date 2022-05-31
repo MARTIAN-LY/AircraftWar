@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.MathUtils;
 public class MobEnemyFactory implements EnemyFactory{
     private static int BG_WIDTH = 512;
     private static int BG_HEIGHT = 768;
-    private static Texture MOB_IMAGE = new Texture(Gdx.files.internal("images/mob.png"));
+    private Texture MOB_IMAGE = new Texture(Gdx.files.internal("images/mob.png"));
     @Override
     public AbstractAircraft createEnemy() {
         return new MobEnemy(
