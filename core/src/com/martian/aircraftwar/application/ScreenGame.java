@@ -358,7 +358,7 @@ public abstract class ScreenGame implements Screen {
     public void gameOverCheck() {
         if (hero.notValid()) {
             TmpScore.score = score;
-            TmpScore.date = new Date();
+            TmpScore.time = System.currentTimeMillis();
             game.communicate.gotoOnceScore();
         }
     }

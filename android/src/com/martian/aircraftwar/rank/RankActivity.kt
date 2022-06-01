@@ -20,6 +20,9 @@ class RankActivity : AppCompatActivity() {
 
     private lateinit var rankingDao:RankingDao;
     private lateinit var binding: ActivityRankBinding
+    companion object{
+        lateinit var name:String;
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         rankingDao = RankingDao();
         if(TmpScore.score != -1)

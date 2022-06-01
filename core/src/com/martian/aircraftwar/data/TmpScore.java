@@ -4,10 +4,6 @@ import java.util.Date;
 
 public class TmpScore {
     public static int score;
-    public static Date date;
+    public static long time;
 
-    static {
-        score = 0;
-        date = new Date();
-    }
 }

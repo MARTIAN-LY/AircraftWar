@@ -13,7 +13,6 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private lateinit var preferences: SharedPreferences
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -35,6 +34,7 @@ class LoginActivity : AppCompatActivity() {
                     Toast.makeText(this, "用户名、密码不能为空", Toast.LENGTH_SHORT).show()
                 } else {
                     val edit = preferences.edit()
+                    RankActivity.name = username;
                     edit.putString("username", username)
                     edit.putString("password", password)
                     edit.commit()
@@ -45,6 +45,7 @@ class LoginActivity : AppCompatActivity() {
             }
         } else {
             /** 已经登录过，不用再输入用户名、密码 */
+            RankActivity.name = name.toString();
             Toast.makeText(this, "欢迎你,$name", Toast.LENGTH_SHORT).show()
             startActivity(Intent(this, MainActivity::class.java))
             this.finish()
