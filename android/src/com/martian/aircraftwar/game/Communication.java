@@ -1,9 +1,10 @@
-package com.martian.aircraftwar;
+package com.martian.aircraftwar.game;
 
 import android.app.Activity;
 import android.content.Intent;
 
 import com.martian.aircraftwar.application.CommunicateWithAndroid;
+import com.martian.aircraftwar.rank.OnceScoreActivity;
 import com.martian.aircraftwar.rank.RankActivity;
 
 public class Communication implements CommunicateWithAndroid {
@@ -15,8 +16,8 @@ public class Communication implements CommunicateWithAndroid {
     }
 
     @Override
-    public void gotoRankList() {
-        activity.startActivity(new Intent(activity,RankActivity.class));
+    public void gotoOnceScore() {
+        activity.startActivity(new Intent(activity, OnceScoreActivity.class));
         activity.finish();
     }
 

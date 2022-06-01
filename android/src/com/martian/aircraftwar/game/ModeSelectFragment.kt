@@ -1,4 +1,4 @@
-package com.martian.aircraftwar.fragments
+package com.martian.aircraftwar.game
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,10 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
-import com.martian.aircraftwar.R
 import com.martian.aircraftwar.databinding.FragmentModeSelectBinding
 
-class ModeSelect : Fragment() {
+class ModeSelectFragment : Fragment() {
 
     private var _binding: FragmentModeSelectBinding? = null
 
@@ -32,15 +31,15 @@ class ModeSelect : Fragment() {
 
         //不同难度
         binding.buttonEasy.setOnClickListener {
-            val action = ModeSelectDirections.navModeToGame(0)
+            val action = ModeSelectFragmentDirections.navModeToGame(0)
             Navigation.findNavController(view).navigate(action)
         }
         binding.buttonNormal.setOnClickListener {
-            val action = ModeSelectDirections.navModeToGame(1)
+            val action = ModeSelectFragmentDirections.navModeToGame(1)
             Navigation.findNavController(view).navigate(action)
         }
         binding.buttonHard.setOnClickListener {
-            val action = ModeSelectDirections.navModeToGame(2)
+            val action = ModeSelectFragmentDirections.navModeToGame(2)
             Navigation.findNavController(view).navigate(action)
         }
 
