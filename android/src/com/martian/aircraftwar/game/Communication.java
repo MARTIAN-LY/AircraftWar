@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 
 import com.martian.aircraftwar.application.CommunicateWithAndroid;
-import com.martian.aircraftwar.rank.OnceScoreActivity;
-import com.martian.aircraftwar.rank.RankActivity;
 
 public class Communication implements CommunicateWithAndroid {
 

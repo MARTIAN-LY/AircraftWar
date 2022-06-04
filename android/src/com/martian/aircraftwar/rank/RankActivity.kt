@@ -1,43 +1,40 @@
 package com.martian.aircraftwar.rank
 
-import android.app.AlertDialog
-import android.content.DialogInterface
+
+import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.widget.Button
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.martian.aircraftwar.R
-import com.martian.aircraftwar.data.TmpScore
+import com.martian.aircraftwar.MainActivity
 import com.martian.aircraftwar.databinding.ActivityRankBinding
-import java.io.IOException
 
 
 class RankActivity : AppCompatActivity() {
 
-    private lateinit var rankingDao:RankingDao;
     private lateinit var binding: ActivityRankBinding
+
+    private val args by navArgs<RankActivityArgs>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
-//        rankingDao = RankingDao();
-//        if(TmpScore.score != -1)
-//        {
-//            rankingDao.doAdd(Ranking(name, TmpScore.score, TmpScore.time));
-//            try {
-//                rankingDao.saveToFile()
-//            } catch (ex: IOException) {
-//                ex.printStackTrace()
-//            }
-//        }
+
         super.onCreate(savedInstanceState)
         binding = ActivityRankBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        /** 返回主界面 */
+        binding.btnFloat2.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            if (!args.fromMenu) {
+                intent.putExtra("back", true)
+            }
+            startActivity (intent)
+        }
+
         //设置ViewPager
-        val adapter = ViewPagerAdapter()
-        binding.viewPager.adapter = adapter
+        binding.viewPager.adapter = ViewPagerAdapter(this.supportFragmentManager, lifecycle)
 
         // 把 ViewPager 和 TabLayout 关联
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
@@ -61,28 +58,6 @@ class RankActivity : AppCompatActivity() {
                 binding.tabLayout.selectTab(binding.tabLayout.getTabAt(position))
             }
         })
-
-//        showLayoutDialog()
     }
 
-//    private fun showLayoutDialog() {
-//        //加载布局并初始化组件
-//        val alertDialog = LayoutInflater.from(this).inflate(R.layout.alert_round_score,null)
-//        val textScore = alertDialog.findViewById<TextView>(R.id.text_score)
-//        val button = alertDialog.findViewById<Button>(R.id.btn_confirm)
-//
-//        textScore.setText(TmpScore.score.toString())
-//
-//        val layoutDialog: AlertDialog.Builder = AlertDialog.Builder(this)
-//        layoutDialog.setView(alertDialog)
-//
-//
-//        button.setOnClickListener {
-//            layoutDialog.setOnDismissListener {
-//                DialogInterface.OnDismissListener { dialog -> dialog.dismiss() }
-//            }
-//        }
-//
-//        layoutDialog.create().show()
-//    }
 }
