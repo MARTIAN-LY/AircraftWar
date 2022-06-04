@@ -1,6 +1,7 @@
 package com.martian.aircraftwar.game
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,10 +12,8 @@ import com.martian.aircraftwar.databinding.FragmentModeSelectBinding
 class ModeSelectFragment : Fragment() {
 
     private var _binding: FragmentModeSelectBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
+    private var needBack = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,6 +43,17 @@ class ModeSelectFragment : Fragment() {
         }
 
         return view
+    }
+
+    override fun onResume() {
+        super.onResume()
+        //如果收到返回首页的请求，自动返回首页
+        val back = activity?.intent?.getBooleanExtra("back", false)
+        Log.e("================", back.toString())
+        if (back == true) {
+            activity?.intent?.putExtra("back", false)
+            Navigation.findNavController(binding.root).popBackStack()
+        }
     }
 
     override fun onDestroyView() {

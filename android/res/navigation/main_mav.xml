@@ -39,7 +39,12 @@
         android:id="@+id/rankActivity"
         android:name="com.martian.aircraftwar.rank.RankActivity"
         android:label="activity_rank"
-        tools:layout="@layout/activity_rank" />
+        tools:layout="@layout/activity_rank" >
+        <argument
+            android:name="fromMenu"
+            app:argType="boolean"
+            android:defaultValue="true" />
+    </activity>
     <activity
         android:id="@+id/androidLauncher"
         android:name="com.martian.aircraftwar.game.AndroidLauncher"
@@ -56,7 +61,7 @@
         tools:layout="@layout/activity_shop" />
     <activity
         android:id="@+id/onlineActivity"
-        android:name="com.martian.aircraftwar.OnlineActivity"
+        android:name="com.martian.aircraftwar.online.OnlineActivity"
         android:label="activity_online"
         tools:layout="@layout/activity_online" />
 </navigation>
