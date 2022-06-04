@@ -39,12 +39,7 @@
         android:id="@+id/rankActivity"
         android:name="com.martian.aircraftwar.rank.RankActivity"
         android:label="activity_rank"
-        tools:layout="@layout/activity_rank" >
-        <argument
-            android:name="fromMenu"
-            app:argType="boolean"
-            android:defaultValue="true" />
-    </activity>
+        tools:layout="@layout/activity_rank" />
     <activity
         android:id="@+id/androidLauncher"
         android:name="com.martian.aircraftwar.game.AndroidLauncher"

@@ -45,7 +45,9 @@ class OnceScoreActivity : AppCompatActivity() {
         /** 去 排行榜 界面*/
         binding.btnConfirm.setOnClickListener {
             viewModel.addScore(Score(0, TmpScore.score, TmpScore.mode, TmpScore.date))
-            startActivity(Intent(this, RankActivity::class.java))
+            val intent = Intent(this, RankActivity::class.java)
+            intent.putExtra("fromMenu", false)
+            startActivity(intent)
             finish()
         }
         /** 去 首页 */

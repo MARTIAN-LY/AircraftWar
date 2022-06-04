@@ -16,8 +16,6 @@ class RankActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRankBinding
 
-    private val args by navArgs<RankActivityArgs>()
-
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -26,11 +24,15 @@ class RankActivity : AppCompatActivity() {
 
         /** 返回主界面 */
         binding.btnFloat2.setOnClickListener {
+
             val intent = Intent(this, MainActivity::class.java)
-            if (!args.fromMenu) {
-                intent.putExtra("back", true)
+            val fromMenu = this.intent.getBooleanExtra("fromMenu",true)
+            if (fromMenu){
+                intent.putExtra("back",false)
+            } else{
+                intent.putExtra("back",true)
             }
-            startActivity (intent)
+            startActivity(intent)
         }
 
         //设置ViewPager
