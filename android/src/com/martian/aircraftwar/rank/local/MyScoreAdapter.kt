@@ -2,17 +2,18 @@ package com.martian.aircraftwar.rank.local
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.martian.aircraftwar.data.Score
 import com.martian.aircraftwar.databinding.RecyclerMyscoreBinding
 
 /** 我的得分界面 RecyclerView 的 Adapter*/
-class MyScoreAdapter : RecyclerView.Adapter<MyScoreAdapter.MyViewHolder>() {
+class MyScoreAdapter(
+    private val name: String?,
+    private val operator: ItemOperator
+) : RecyclerView.Adapter<MyScoreAdapter.MyViewHolder>() {
+
 
     private var scoreList: List<Score> = emptyList()
-    private var name: String? = null
 
     /** ViewHolder 是单个 item 的容器*/
     inner class MyViewHolder(val binding: RecyclerMyscoreBinding) :
@@ -40,6 +41,10 @@ class MyScoreAdapter : RecyclerView.Adapter<MyScoreAdapter.MyViewHolder>() {
                 1 -> "普通"
                 else -> "困难"
             }
+
+            itemMyscoreBtnDelete.setOnClickListener {
+                operator.deleteData(currentItem)
+            }
         }
     }
 
@@ -50,9 +55,9 @@ class MyScoreAdapter : RecyclerView.Adapter<MyScoreAdapter.MyViewHolder>() {
         scoreList.size
     }
 
-    fun setData(name: String?, list: List<Score>) {
+    fun setData(list: List<Score>) {
         this.scoreList = list
-        this.name = name
         notifyDataSetChanged()
     }
+
 }

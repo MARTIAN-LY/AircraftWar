@@ -13,7 +13,6 @@ class ModeSelectFragment : Fragment() {
 
     private var _binding: FragmentModeSelectBinding? = null
     private val binding get() = _binding!!
-    private var needBack = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
