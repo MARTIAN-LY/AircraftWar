@@ -34,10 +34,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".shop.ShopActivity"
-            android:exported="false"
-            android:theme="@style/Theme.AppCompat" />
-        <activity
             android:name=".rank.RankActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
