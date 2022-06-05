@@ -1,4 +1,4 @@
-package com.martian.aircraftwar
+package com.martian.aircraftwar.shop
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.Navigation
+import com.martian.aircraftwar.R
 import com.martian.aircraftwar.databinding.FragmentMainMenuBinding
 import com.martian.aircraftwar.rank.RankActivity
 
@@ -34,8 +35,9 @@ class MainMenuFragment : Fragment() {
         }
 
         binding.buttonPropShop.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.nav_menu_to_shop)
-            Toast.makeText(activity, "功能正在开发中，敬请期待！！！", Toast.LENGTH_SHORT).show()
+            val intent = Intent(activity, ShopActivity::class.java)
+            intent.putExtra("fromMenu",true)
+            startActivity(intent)
         }
 
         /** 打开排行榜 */

@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
-import com.martian.aircraftwar.MainActivity
+import com.martian.aircraftwar.shop.MainActivity
 import com.martian.aircraftwar.data.Score
 import com.martian.aircraftwar.data.ScoreViewModel
 import com.martian.aircraftwar.data.TmpScore

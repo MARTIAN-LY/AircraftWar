@@ -1,4 +1,4 @@
-package com.martian.aircraftwar
+package com.martian.aircraftwar.shop
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

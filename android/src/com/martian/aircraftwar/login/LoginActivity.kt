@@ -5,9 +5,8 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.martian.aircraftwar.MainActivity
+import com.martian.aircraftwar.shop.MainActivity
 import com.martian.aircraftwar.databinding.ActivityLoginBinding
-import com.martian.aircraftwar.rank.RankActivity
 
 class LoginActivity : AppCompatActivity() {
 

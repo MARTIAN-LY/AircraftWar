@@ -4,11 +4,10 @@ package com.martian.aircraftwar.rank
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.martian.aircraftwar.MainActivity
+import com.martian.aircraftwar.shop.MainActivity
 import com.martian.aircraftwar.databinding.ActivityRankBinding
 
 

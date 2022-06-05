@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainMenu"
-        android:name="com.martian.aircraftwar.MainMenuFragment"
+        android:name="com.martian.aircraftwar.shop.MainMenuFragment"
         android:label="fragment_main_menu"
         tools:layout="@layout/fragment_main_menu" >
         <action
@@ -24,7 +24,7 @@
             app:destination="@id/onlineActivity" />
         <action
             android:id="@+id/nav_menu_to_shop"
-            app:destination="@id/shopFragment" />
+            app:destination="@id/shopActivity" />
     </fragment>
     <fragment
         android:id="@+id/modeSelect"
@@ -55,8 +55,8 @@
         android:label="activity_online"
         tools:layout="@layout/activity_online" />
     <fragment
-        android:id="@+id/shopFragment"
-        android:name="com.martian.aircraftwar.shop.ShopFragment"
-        android:label="fragment_shop"
-        tools:layout="@layout/fragment_shop" />
+        android:id="@+id/shopActivity"
+        android:name="com.martian.aircraftwar.shop.ShopActivity"
+        android:label="activity_shop"
+        tools:layout="@layout/activity_shop" />
 </navigation>
