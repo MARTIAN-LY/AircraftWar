@@ -16,11 +16,11 @@
         android:label="@string/app_name"
         tools:ignore="UnusedAttribute">
         <activity
-            android:name=".OnlineActivity"
+            android:name=".online.OnlineActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".rank.OnceScoreActivity"
+            android:name=".game.OnceScoreActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
@@ -34,13 +34,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".shop.ShopActivity"
-            android:exported="false"
-            android:theme="@style/Theme.AppCompat" />
-        <activity
             android:name=".rank.RankActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat" />
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:exported="false"

@@ -1,5 +1,6 @@
 package com.martian.aircraftwar
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,13 +9,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.Navigation
 import com.martian.aircraftwar.databinding.FragmentMainMenuBinding
+import com.martian.aircraftwar.rank.RankActivity
 
 class MainMenuFragment : Fragment() {
 
     private var _binding: FragmentMainMenuBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -39,8 +38,11 @@ class MainMenuFragment : Fragment() {
             Toast.makeText(activity, "功能正在开发中，敬请期待！！！", Toast.LENGTH_SHORT).show()
         }
 
+        /** 打开排行榜 */
         binding.buttonRankingList.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.nav_menu_to_rank)
+            val intent = Intent(activity, RankActivity::class.java)
+            intent.putExtra("fromMenu",true)
+            startActivity(intent)
         }
         return view
     }
