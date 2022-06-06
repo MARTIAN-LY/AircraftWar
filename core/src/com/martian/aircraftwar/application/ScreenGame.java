@@ -7,12 +7,26 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.martian.aircraftwar.aircraft.AbstractAircraft;
@@ -27,6 +41,8 @@ import com.martian.aircraftwar.bullet.HeroBullet;
 import com.martian.aircraftwar.data.TmpScore;
 import com.martian.aircraftwar.prop.AbstractProp;
 import com.martian.aircraftwar.prop.BombProp;
+import com.martian.aircraftwar.shoot.EnemyShootScattered;
+import com.martian.aircraftwar.shoot.HeroShootScattered;
 
 import java.util.Date;
 import java.util.Iterator;
@@ -75,6 +91,12 @@ public abstract class ScreenGame implements Screen {
     protected Texture background;
 
     private MyInputProcessor inputProcessor = new MyInputProcessor();
+    private Button stopButton;
+    private Dialog stopDialog;
+    private boolean skipFlag = false;
+
+    private Button musicButton;
+    public static boolean haveMusic = true;
 
     public ScreenGame(AircraftWarGame game) {
         Gdx.input.setCatchKey(Input.Keys.BACK, true);
@@ -91,6 +113,9 @@ public abstract class ScreenGame implements Screen {
         hit_sound = Gdx.audio.newSound(Gdx.files.internal("videos/bullet_hit.wav"));
         hero_hit_sound = Gdx.audio.newSound(Gdx.files.internal("videos/hero_hit.wav"));
         prop_sound = Gdx.audio.newSound(Gdx.files.internal("videos/get_supply.wav"));
+        haveMusic = true;
+
+        //load aircraft
         bitmapFont = new BitmapFont(Gdx.files.internal("fonts/font.fnt"));
         HeroAircraft.refresh();
         hero = HeroAircraft.getInstance();
@@ -108,9 +133,105 @@ public abstract class ScreenGame implements Screen {
         eliteEnemyFactory = new EliteEnemyFactory();
         bossEnemyFactory = new BossEnemyFactory();
 
+
         // camera
         camera = new OrthographicCamera();
         camera.setToOrtho(false, bg_width, bg_height);
+
+        //load buttons & dialogs
+        Button.ButtonStyle stopStyle = new Button.ButtonStyle();
+        stopStyle.up = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("images/stopbutton1.jpg"))));
+        stopStyle.checked = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("images/stopbutton2.jpg"))));
+        stopButton = new Button(stopStyle);
+        game.stage.addActor(stopButton);
+        stopButton.setBounds(bg_width - 60, bg_height - 60, 50, 50);
+
+        Button.ButtonStyle musicStyle = new Button.ButtonStyle();
+        musicStyle.up = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("images/musicbutton1.jpg"))));
+        musicStyle.checked = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("images/musicbutton2.jpg"))));
+        musicButton = new Button(musicStyle);
+        game.stage.addActor(musicButton);
+        musicButton.setBounds(bg_width - 120, bg_height - 60, 50, 50);
+
+        Skin skin = new Skin();
+        Pixmap pixmap = new Pixmap(1,1, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.GRAY);
+        pixmap.fill();
+        skin.add("gray", new Texture(pixmap));
+        pixmap.setColor(Color.LIGHT_GRAY);
+        pixmap.fill();
+        skin.add("light_gray", new Texture(pixmap));
+        BitmapFont font = new BitmapFont();
+        Window.WindowStyle windowStyle = new Window.WindowStyle(font, Color.RED, skin.getDrawable("light_gray"));
+        stopDialog = new Dialog("stop", windowStyle);
+        stopDialog.setBounds( bg_width / 2 - 60, bg_height / 2 - 30,120, 60);
+        Label.LabelStyle labelStyle = new Label.LabelStyle( font, Color.RED );
+        Button.ButtonStyle buttonStyle = new Button.ButtonStyle( skin.getDrawable("gray"), skin.getDrawable("light_gray"), null );
+        TextButton.TextButtonStyle textbuttonStyle = new TextButton.TextButtonStyle( skin.getDrawable("gray"), skin.getDrawable("light_gray"), null, font );
+        skin.add( "default", buttonStyle );
+        skin.add( "default", textbuttonStyle );
+        skin.add( "default", windowStyle );
+        skin.add( "default", labelStyle );
+        TextButton backButton = new TextButton("Back", skin);
+        TextButton exitButton = new TextButton( "Exit", skin);
+        backButton.setBounds( 10, 10, 40, 20 );
+        exitButton.setBounds( 120-50, 10, 40, 20 );
+        stopDialog.addActor( backButton );
+        stopDialog.addActor( exitButton );
+        backButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y)
+            {
+                stopButton.setChecked(false);
+                skipFlag = false;
+                stopDialog.hide();
+            }
+        });
+        exitButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y)
+            {
+                hero.vanish();
+                stopButton.setChecked(false);
+                skipFlag = false;
+                stopDialog.hide();
+            }
+        });
+        game.stage.addActor(stopDialog);
+        stopDialog.hide();
+
+        stopButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y)
+            {
+                if(stopButton.isChecked())
+                {
+                    skipFlag = true;
+                    stopDialog.show(game.stage);
+                    stopDialog.setBounds( bg_width / 2 - 60, bg_height / 2 - 30,120, 60);
+                }
+                else
+                {
+                    skipFlag = false;
+                }
+            }
+        });
+        musicButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y)
+            {
+                if(musicButton.isChecked())
+                {
+                    haveMusic = false;
+                    bg_music.pause();
+                }
+                else
+                {
+                    haveMusic = true;
+                    bg_music.play();
+                }
+            }
+        });
     }
 
     @Override
@@ -126,17 +247,21 @@ public abstract class ScreenGame implements Screen {
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
 
-        addEnemyAction();
-        shootAction();
-        moveAction();
-        crashCheckAction();
-        clearAction();
-        gameOverCheck();
-
+        if(!skipFlag)
+        {
+            addEnemyAction();
+            shootAction();
+            moveAction();
+            crashCheckAction();
+            clearAction();
+            gameOverCheck();
+        }
         //开始绘图
         game.batch.begin();
         drawAction();
         game.batch.end();
+        game.stage.act();
+        game.stage.draw();
     }
 
 
@@ -171,8 +296,10 @@ public abstract class ScreenGame implements Screen {
                     continue;
                 }
                 if (hero.crash(prop)) {
-                    prop_sound.play();
-                    System.out.println("233");
+                    if(haveMusic)
+                    {
+                        prop_sound.play();
+                    }
                     if (prop instanceof BombProp) {
                         score += ((BombProp) prop).effect(enemies, bullets);
                     } else prop.effect();
@@ -204,7 +331,10 @@ public abstract class ScreenGame implements Screen {
                 // 英雄机损失一定生命值
                 hero.decreaseHp(bullet.getPower());
                 bullet.vanish();
-                hero_hit_sound.play();
+                if(haveMusic)
+                {
+                    hero_hit_sound.play();
+                }
             }
         }
         for (BaseBullet bullet : bullets) {
@@ -220,7 +350,10 @@ public abstract class ScreenGame implements Screen {
                 if (enemyAircraft.crash(bullet)) {
                     // 敌机撞击到英雄机子弹
                     // 敌机损失一定生命值
-                    hit_sound.play();
+                    if(haveMusic)
+                    {
+                        hit_sound.play();
+                    }
                     enemyAircraft.decreaseHp(bullet.getPower());
                     bullet.vanish();
                     if (enemyAircraft.notValid()) {
@@ -253,8 +386,15 @@ public abstract class ScreenGame implements Screen {
         //如果屏幕被点击
         if (Gdx.input.isTouched()) {
             touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            //把变化告知给camera
             camera.unproject(touchPos);
+            Rectangle tmp = new Rectangle(touchPos.x, touchPos.y, 10, 10);
+            Rectangle b1 = new Rectangle(stopButton.getX(), stopButton.getY(), stopButton.getWidth(), stopButton.getHeight());
+            Rectangle b2 = new Rectangle(musicButton.getX(), musicButton.getY(), musicButton.getWidth(), musicButton.getHeight());
+            if(tmp.overlaps(b1) || tmp.overlaps(b2))
+            {
+                return;
+            }
+            //把变化告知给camera
             hero.x = touchPos.x - hero.getWidth() / 2;
             hero.y = touchPos.y - hero.getHeight() / 2;
         }
@@ -308,6 +448,7 @@ public abstract class ScreenGame implements Screen {
         for (AbstractProp prop : props) {
             game.batch.draw(prop.getImage(), prop.x, prop.y);
         }
+
     }
 
     protected void addEnemyAction() {

@@ -1,13 +1,17 @@
 package com.martian.aircraftwar.application;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 public class AircraftWarGame extends Game {
 
     int mode;
     CommunicateWithAndroid communicate;
+    Stage stage;
 
     public AircraftWarGame(int mode, CommunicateWithAndroid communicate) {
         this.mode = mode;
@@ -21,6 +25,8 @@ public class AircraftWarGame extends Game {
     public void create() {
         batch = new SpriteBatch();
         font = new BitmapFont();
+        stage = new Stage(new StretchViewport(512,768));
+        Gdx.input.setInputProcessor(stage);
 
         if (mode == 0) {
             this.setScreen(new ScreenGameEasy(this));
@@ -40,5 +46,6 @@ public class AircraftWarGame extends Game {
     public void dispose() {
         batch.dispose();
         font.dispose();
+        stage.dispose();
     }
 }

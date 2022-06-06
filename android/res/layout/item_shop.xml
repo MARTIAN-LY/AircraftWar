@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:background="@drawable/bg_good"
+    >
+
+    <ImageView
+        android:id="@+id/good_icon"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_margin="10dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginBottom="70dp"
+        android:contentDescription="@string/MaxHpGood"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_maxhpgood" />
+
+    <TextView
+        android:id="@+id/good_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@id/good_icon"
+        android:text="永久增加初始血量"
+        android:textSize="30sp"/>
+
+</RelativeLayout>
