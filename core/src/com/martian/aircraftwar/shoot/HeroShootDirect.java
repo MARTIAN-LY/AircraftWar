@@ -11,7 +11,6 @@ import java.util.List;
 public class HeroShootDirect implements ShootStrategy
 {
     static int shootNum;
-    private Texture HERO_BULLET_IMAGE = new Texture(Gdx.files.internal("images/bullet_hero.png"));
 
     static public void setShootNum(int num)
     {
@@ -27,6 +26,7 @@ public class HeroShootDirect implements ShootStrategy
         int speedX = 0;
         int speedY = 150;
         BaseBullet bullet;
+        Texture HERO_BULLET_IMAGE = new Texture(Gdx.files.internal("images/bullet_hero.png"));
         for(int i = 0; i < shootNum; i++)
         {
             // 子弹发射位置相对飞机位置向前偏移

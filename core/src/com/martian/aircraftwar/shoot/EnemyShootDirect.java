@@ -11,7 +11,6 @@ import java.util.List;
 public class EnemyShootDirect implements ShootStrategy
 {
     static int shootNum;
-    private Texture ENEMY_BULLET_IMAGE = new Texture(Gdx.files.internal("images/bullet_enemy.png"));
 
     static public void setShootNum(int num)
     {
@@ -27,6 +26,7 @@ public class EnemyShootDirect implements ShootStrategy
         int speedX = 0;
         int speedY = -300;
         BaseBullet bullet;
+        Texture ENEMY_BULLET_IMAGE = new Texture(Gdx.files.internal("images/bullet_enemy.png"));
         for(int i = 0; i < shootNum; i++)
         {
             bullet = new EnemyBullet(ENEMY_BULLET_IMAGE,x + (i * 2 - shootNum + 1) * 20, y, speedX, speedY);

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.martian.aircraftwar.aircraft.AbstractAircraft;
 import com.martian.aircraftwar.aircraft.BossEnemy;
 import com.martian.aircraftwar.aircraft.HeroAircraft;
+import com.martian.aircraftwar.application.ScreenGame;
 import com.martian.aircraftwar.basic.AbstractFlyingObject;
 import com.martian.aircraftwar.bullet.BaseBullet;
 import com.martian.aircraftwar.bullet.EnemyBullet;
@@ -19,7 +20,7 @@ import java.util.List;
 
 public class BombProp extends AbstractProp
 {
-    static private Sound bombSound = Gdx.audio.newSound(Gdx.files.internal("videos/bomb_explosion.wav"));
+    private static final Sound bombSound = Gdx.audio.newSound(Gdx.files.internal("videos/bomb_explosion.wav"));
     public BombProp(Texture image, float locationX, float locationY, float speedX, float speedY)
     {
         super(image, locationX, locationY, speedX, speedY);
@@ -30,7 +31,10 @@ public class BombProp extends AbstractProp
     }
     public int effect(LinkedList<AbstractAircraft> enemies, LinkedList<BaseBullet>bullets)
     {
-        bombSound.play();
+        if(ScreenGame.haveMusic)
+        {
+            bombSound.play();
+        }
         int res = 0;
         for (Iterator<AbstractAircraft> iterator = enemies.iterator(); iterator.hasNext(); ) {
             AbstractAircraft aircraft = iterator.next();

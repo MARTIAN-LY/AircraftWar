@@ -6,6 +6,6 @@ public class MaxHpGood extends Good
 {
     public MaxHpGood()
     {
-        super("永久增加初始血量", 100, R.drawable.ic_maxhpgood);
+        super("永久增加血量上限", 100, R.drawable.ic_maxhpgood);
     }
 }
