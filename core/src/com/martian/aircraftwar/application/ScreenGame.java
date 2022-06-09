@@ -90,7 +90,6 @@ public abstract class ScreenGame implements Screen {
     protected int eliteEnemyRate;
     protected Texture background;
 
-    private MyInputProcessor inputProcessor = new MyInputProcessor();
     private Button stopButton;
     private Dialog stopDialog;
     private boolean skipFlag = false;
