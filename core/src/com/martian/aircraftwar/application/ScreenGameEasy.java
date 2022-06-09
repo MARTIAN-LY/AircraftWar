@@ -14,6 +14,7 @@ public class ScreenGameEasy extends ScreenGame{
         this.enemyMaxNumber = 4;
         this.eliteEnemyRate = -1;
         this.BossInterval = Integer.MAX_VALUE;
+        this.basicScore = 1;
         HeroShootDirect.setShootNum(2);
         EnemyShootDirect.setShootNum(1);
         EliteEnemyFactory.setHp(1);

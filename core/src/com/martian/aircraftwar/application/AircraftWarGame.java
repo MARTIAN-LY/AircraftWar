@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.martian.aircraftwar.aircraft.HeroAircraft;
 
 public class AircraftWarGame extends Game {
 
@@ -16,6 +17,7 @@ public class AircraftWarGame extends Game {
     public AircraftWarGame(int mode, CommunicateWithAndroid communicate) {
         this.mode = mode;
         this.communicate = communicate;
+        HeroAircraft.setMaxHp(communicate.getMaxHp());
     }
 
     SpriteBatch batch;

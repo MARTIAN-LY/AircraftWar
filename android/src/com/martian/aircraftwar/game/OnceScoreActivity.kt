@@ -1,15 +1,16 @@
 package com.martian.aircraftwar.game
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.content.SharedPreferences
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.martian.aircraftwar.MainActivity
 import com.martian.aircraftwar.data.Score
 import com.martian.aircraftwar.data.ScoreViewModel
 import com.martian.aircraftwar.data.TmpScore
 import com.martian.aircraftwar.databinding.ActivityOnceScoreBinding
 import com.martian.aircraftwar.rank.RankActivity
+import com.martian.aircraftwar.shop.MainActivity
 
 class OnceScoreActivity : AppCompatActivity() {
 
@@ -34,6 +35,18 @@ class OnceScoreActivity : AppCompatActivity() {
         /** 显示本局得分 */
         binding.textMode.text = mode
         binding.textScore.text = TmpScore.score.toString()
+
+        /** 点击任意一个 button，都会将数据保存到本地 */
+        var namePreference: SharedPreferences? = getSharedPreferences("userInfo", MODE_PRIVATE)
+        val name = namePreference!!.getString("username", null)
+        var preferences = getSharedPreferences(name, MODE_PRIVATE)
+        var money = preferences.getInt("money", 0)
+        val edit = preferences.edit()
+        edit.remove("money")
+        edit.commit()
+        money += TmpScore.score;
+        edit.putInt("money", money)
+        edit.commit()
 
         /** 去 难度选择 界面*/
         binding.btnAgain.setOnClickListener {

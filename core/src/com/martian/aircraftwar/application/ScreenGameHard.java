@@ -14,8 +14,9 @@ public class ScreenGameHard extends ScreenGame{
         super(game);
         this.background = new Texture(Gdx.files.internal("images/bg3.jpg"));
         this.enemyMaxNumber = 6;
-        this.BossInterval = 100;
+        this.BossInterval = 300;
         this.eliteEnemyRate = 50;
+        this.basicScore = 3;
         HeroShootDirect.setShootNum(1);
         EnemyShootDirect.setShootNum(2);
         EnemyShootScattered.setShootNum(5);

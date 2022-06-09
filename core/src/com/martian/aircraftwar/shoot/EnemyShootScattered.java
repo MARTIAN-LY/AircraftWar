@@ -15,8 +15,7 @@ public class EnemyShootScattered implements ShootStrategy
 {
     static int shootNum = 5;
     static int nextMissile = 5;
-    private static final Sound missileSound = Gdx.audio.newSound(Gdx.files.internal("videos/missile.wav"));
-    private static final Texture MISSILE_IMAGE = new Texture(Gdx.files.internal("images/missile.png"));
+    private Sound missileSound = Gdx.audio.newSound(Gdx.files.internal("videos/missile.wav"));
 
     static public void setShootNum(int num)
     {
@@ -30,7 +29,6 @@ public class EnemyShootScattered implements ShootStrategy
     public List<BaseBullet> doShoot(float x, float y)
     {
         List<BaseBullet> res = new LinkedList<>();
-        int direction = 1;
         int speedX = -(shootNum / 2) * 10;
         int speedY = -300;
         y -= 2;
@@ -52,7 +50,7 @@ public class EnemyShootScattered implements ShootStrategy
             {
                 for(int i = 0; i < 3; i++)
                 {
-                    bullet = new EnemyMissile(MISSILE_IMAGE, x + (i - 1) * 60, y, 0, speedY * 2);
+                    bullet = new EnemyMissile(new Texture(Gdx.files.internal("images/missile.png")), x + (i - 1) * 60, y, 0, speedY * 2);
                     res.add(bullet);
                 }
                 if(ScreenGame.haveMusic)

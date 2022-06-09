@@ -17,16 +17,20 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.martian.aircraftwar.aircraft.AbstractAircraft;
@@ -37,11 +41,13 @@ import com.martian.aircraftwar.aircraft.HeroAircraft;
 import com.martian.aircraftwar.aircraft.MobEnemyFactory;
 import com.martian.aircraftwar.bullet.BaseBullet;
 import com.martian.aircraftwar.bullet.EnemyBullet;
+import com.martian.aircraftwar.bullet.EnemyMissile;
 import com.martian.aircraftwar.bullet.HeroBullet;
 import com.martian.aircraftwar.data.TmpScore;
 import com.martian.aircraftwar.prop.AbstractProp;
 import com.martian.aircraftwar.prop.BombProp;
 import com.martian.aircraftwar.shoot.EnemyShootScattered;
+import com.martian.aircraftwar.shoot.HeroShootDirect;
 import com.martian.aircraftwar.shoot.HeroShootScattered;
 
 import java.util.Date;
@@ -89,6 +95,7 @@ public abstract class ScreenGame implements Screen {
     protected int BossInterval;
     protected int eliteEnemyRate;
     protected Texture background;
+    protected int basicScore;
 
     private Button stopButton;
     private Dialog stopDialog;
@@ -96,6 +103,8 @@ public abstract class ScreenGame implements Screen {
 
     private Button musicButton;
     public static boolean haveMusic = true;
+
+    private ImageTextButton healButton;
 
     public ScreenGame(AircraftWarGame game) {
         Gdx.input.setCatchKey(Input.Keys.BACK, true);
@@ -138,13 +147,54 @@ public abstract class ScreenGame implements Screen {
         camera.setToOrtho(false, bg_width, bg_height);
 
         //load buttons & dialogs
+
+        if(game.communicate.isHaveHeal())
+        {
+            ImageTextButton.ImageTextButtonStyle healButtonStyle = new ImageTextButton.ImageTextButtonStyle();
+            healButtonStyle.font = bitmapFont;
+            healButtonStyle.imageUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("images/healbutton1.jpg"))));
+            healButtonStyle.imageChecked = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("images/healbutton2.jpg"))));
+            healButton = new ImageTextButton("", healButtonStyle);
+            healButton.setSize(60, 60);
+            healButton.setBounds(0, 0, 60, 60);
+            game.stage.addActor(healButton);
+            healButton.addListener(new ChangeListener(){
+                @Override
+                public void changed(ChangeEvent event, Actor actor)
+                {
+                    if(healButton.isChecked())
+                    {
+                        healButton.setDisabled(true);
+                        hero.addHp(5);
+                        Runnable r = () ->
+                        {
+                            for(int i = 9; i >= 1; i--)
+                            {
+                                healButton.setText(i+"s");
+                                try
+                                {
+                                    Thread.sleep(1000);
+                                } catch (InterruptedException e)
+                                {
+                                    e.printStackTrace();
+                                }
+                            }
+                            healButton.setText("");
+                            healButton.setDisabled(false);
+                            healButton.setChecked(false);
+                        };
+                        new Thread(r).start();
+                    }
+                }
+            });
+        }
+
         Button.ButtonStyle stopStyle = new Button.ButtonStyle();
         stopStyle.up = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("images/stopbutton1.jpg"))));
         stopStyle.checked = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("images/stopbutton2.jpg"))));
         stopButton = new Button(stopStyle);
         game.stage.addActor(stopButton);
         stopButton.setBounds(bg_width - 60, bg_height - 60, 50, 50);
-
         Button.ButtonStyle musicStyle = new Button.ButtonStyle();
         musicStyle.up = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("images/musicbutton1.jpg"))));
         musicStyle.checked = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("images/musicbutton2.jpg"))));
@@ -300,7 +350,7 @@ public abstract class ScreenGame implements Screen {
                         prop_sound.play();
                     }
                     if (prop instanceof BombProp) {
-                        score += ((BombProp) prop).effect(enemies, bullets);
+                        score += basicScore * ((BombProp) prop).effect(enemies, bullets);
                     } else prop.effect();
                     prop.vanish();
                 }
@@ -318,7 +368,7 @@ public abstract class ScreenGame implements Screen {
         }
         // TODO 敌机子弹攻击英雄
         for (BaseBullet bullet : bullets) {
-            if (bullet.notValid() || !(bullet instanceof EnemyBullet)) {
+            if (bullet.notValid() || bullet instanceof HeroBullet) {
                 continue;
             }
             if (hero.notValid()) {
@@ -357,7 +407,7 @@ public abstract class ScreenGame implements Screen {
                     bullet.vanish();
                     if (enemyAircraft.notValid()) {
                         // TODO 获得分数，产生道具补给
-                        score += 10;
+                        score += 10 * basicScore;
                         props.addAll(enemyAircraft.dropProp());
                     }
                     break;
@@ -392,6 +442,14 @@ public abstract class ScreenGame implements Screen {
             if(tmp.overlaps(b1) || tmp.overlaps(b2))
             {
                 return;
+            }
+            if(game.communicate.isHaveHeal())
+            {
+                Rectangle b3 = new Rectangle(healButton.getX(), healButton.getY(), healButton.getWidth(), healButton.getHeight());
+                if(tmp.overlaps(b3))
+                {
+                    return;
+                }
             }
             //把变化告知给camera
             hero.x = touchPos.x - hero.getWidth() / 2;
@@ -428,7 +486,7 @@ public abstract class ScreenGame implements Screen {
         game.batch.draw(background, 0, bottom);
         bitmapFont.draw(game.batch, "分数:" + score, 10, bg_height - 5);
         bitmapFont.draw(game.batch, "血量:" + hero.getHp(), 10, bg_height - bitmapFont.getCapHeight() - 10);
-        if (!havBoss && BossInterval <= 300)
+        if (!havBoss && BossInterval <= 1000)
             bitmapFont.draw(game.batch, "Boss机将在" + (BossInterval - score + lasBossScore) + "分后来临", 10, bg_height - 2 * bitmapFont.getCapHeight() - 15);
         //绘制英雄机
         game.batch.draw(hero.getImage(), hero.x, hero.y);
@@ -465,7 +523,7 @@ public abstract class ScreenGame implements Screen {
     }
 
     protected void shootAction() {
-        if (TimeUtils.nanoTime() - lastHeroShoot > 1000000000) {
+        if (TimeUtils.nanoTime() - lastHeroShoot > 500000000) {
             bullets.addAll(hero.shoot());
             lastHeroShoot = TimeUtils.nanoTime();
         }

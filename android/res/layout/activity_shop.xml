@@ -8,9 +8,23 @@
     tools:context=".shop.ShopActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id = "@+id/recyclerview_shop"
+        android:id="@+id/recyclerview_shop"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="#00000000"
-        android:dividerHeight="10dp"/>
+        android:dividerHeight="10dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
+
+    <TextView
+        android:id="@+id/recyclerview_money"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="16dp"
+        android:text="余额："
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

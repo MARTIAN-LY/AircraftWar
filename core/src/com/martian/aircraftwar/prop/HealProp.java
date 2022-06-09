@@ -14,7 +14,7 @@ public class HealProp extends AbstractProp
     public void effect()
     {
         HeroAircraft heroAircraft = HeroAircraft.getInstance();
-        heroAircraft.setHp(heroAircraft.getHp() + 1);
+        heroAircraft.addHp(3);
     }
 
 }
