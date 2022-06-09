@@ -12,11 +12,17 @@ import java.util.List;
 
 public class HeroShootScattered implements ShootStrategy
 {
-    private static final  Sound shootSound = Gdx.audio.newSound(Gdx.files.internal("videos/bullet.wav"));
+    private Sound shootSound = Gdx.audio.newSound(Gdx.files.internal("videos/bullet.wav"));
+    static int defaultShootNum = 3;
+    int shootNum;
+    public HeroShootScattered(){shootNum = defaultShootNum;}
+    static public void setShootNum(int num)
+    {
+        defaultShootNum = num;
+    }
     @Override
     public List<BaseBullet> doShoot(float x, float y)
     {
-        int shootNum = 3;
         List<BaseBullet> res = new LinkedList<>();
         x += 50;
         y += 85;

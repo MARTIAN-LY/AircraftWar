@@ -1,5 +1,7 @@
 package com.martian.aircraftwar.prop;
 
+import static sun.swing.MenuItemLayoutHelper.max;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.martian.aircraftwar.aircraft.HeroAircraft;
 import com.martian.aircraftwar.shoot.HeroShootDirect;
@@ -14,7 +16,7 @@ public class FireProp extends AbstractProp
     }
 
 
-    private final Object fireLock = new Object();
+    private static long endTime = 0;
     @Override
     public void effect()
     {
@@ -22,22 +24,21 @@ public class FireProp extends AbstractProp
         Runnable r = () ->
         {
             long beginTime = System.currentTimeMillis();
-            synchronized(fireLock)
+            if(beginTime + 5000 > endTime)
+                endTime = beginTime + 5000;
+            heroAircraft.setShootStrategy(new HeroShootScattered());
+            HeroShootScattered.setShootNum(6);
+            try
             {
-                try
+                Thread.sleep(5000);
+                if(System.currentTimeMillis() >= endTime)
                 {
-                    long lasTime = 4000 - (System.currentTimeMillis() - beginTime);
-                    if(lasTime > 0)
-                    {
-                        heroAircraft.setShootStrategy(new HeroShootScattered());
-                        Thread.sleep(lasTime);
-                        heroAircraft.setShootStrategy(new HeroShootDirect());
-                    }
-                } catch(InterruptedException e)
-                {
-                    e.printStackTrace();
+                    heroAircraft.setShootStrategy(new HeroShootDirect());
+                    HeroShootScattered.setShootNum(3);
                 }
-                fireLock.notify();
+            } catch (InterruptedException e)
+            {
+                e.printStackTrace();
             }
         };
         new Thread(r).start();

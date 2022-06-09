@@ -5,7 +5,7 @@ import com.martian.aircraftwar.basic.AbstractFlyingObject;
 
 public class BaseBullet extends AbstractFlyingObject {
 
-    private int power = 1;
+    protected int power = 1;
 
     public void setPower(int x)
     {
