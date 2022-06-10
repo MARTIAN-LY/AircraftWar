@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg1"
-    tools:context=".shop.MainMenuFragment">
+    tools:context=".MainMenuFragment">
 
     <!-- TODO: Update blank fragment layout -->
 

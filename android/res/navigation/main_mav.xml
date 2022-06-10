@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainMenu"
-        android:name="com.martian.aircraftwar.shop.MainMenuFragment"
+        android:name="com.martian.aircraftwar.MainMenuFragment"
         android:label="fragment_main_menu"
         tools:layout="@layout/fragment_main_menu" >
         <action
@@ -20,11 +20,11 @@
             android:id="@+id/nav_menu_to_rank"
             app:destination="@id/rankActivity" />
         <action
-            android:id="@+id/nav_menu_to_online"
-            app:destination="@id/onlineActivity" />
-        <action
             android:id="@+id/nav_menu_to_shop"
             app:destination="@id/shopActivity" />
+        <action
+            android:id="@+id/nav_menu_to_online"
+            app:destination="@id/onlineActivity" />
     </fragment>
     <fragment
         android:id="@+id/modeSelect"
@@ -43,20 +43,15 @@
     <activity
         android:id="@+id/androidLauncher"
         android:name="com.martian.aircraftwar.game.AndroidLauncher"
-        android:label="AndroidLauncher" >
-        <argument
-            android:name="mode"
-            app:argType="integer"
-            android:defaultValue="2" />
-    </activity>
-    <activity
-        android:id="@+id/onlineActivity"
-        android:name="com.martian.aircraftwar.online.OnlineActivity"
-        android:label="activity_online"
-        tools:layout="@layout/activity_online" />
+        android:label="AndroidLauncher" />
     <fragment
         android:id="@+id/shopActivity"
         android:name="com.martian.aircraftwar.shop.ShopActivity"
         android:label="activity_shop"
         tools:layout="@layout/activity_shop" />
+    <activity
+        android:id="@+id/onlineActivity"
+        android:name="com.martian.aircraftwar.online.OnlineActivity"
+        android:label="activity_online"
+        tools:layout="@layout/activity_online" />
 </navigation>

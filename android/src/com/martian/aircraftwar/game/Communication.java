@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 
 import com.martian.aircraftwar.application.CommunicateWithAndroid;
+import com.martian.aircraftwar.online.PkResultActivity;
 
 public class Communication implements CommunicateWithAndroid {
 
@@ -29,6 +30,13 @@ public class Communication implements CommunicateWithAndroid {
         activity.startActivity(new Intent(activity, OnceScoreActivity.class));
         activity.finish();
     }
+
+    @Override
+    public void gotoPkResult() {
+        activity.startActivity(new Intent(activity, PkResultActivity.class));
+        activity.finish();
+    }
+
     public int getMaxHp()
     {
         return MaxHp;

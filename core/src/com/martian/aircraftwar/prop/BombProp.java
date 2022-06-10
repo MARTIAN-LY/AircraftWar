@@ -20,7 +20,6 @@ import java.util.List;
 
 public class BombProp extends AbstractProp
 {
-    private static final Sound bombSound = Gdx.audio.newSound(Gdx.files.internal("videos/bomb_explosion.wav"));
     public BombProp(Texture image, float locationX, float locationY, float speedX, float speedY)
     {
         super(image, locationX, locationY, speedX, speedY);
@@ -31,10 +30,6 @@ public class BombProp extends AbstractProp
     }
     public int effect(LinkedList<AbstractAircraft> enemies, LinkedList<BaseBullet>bullets)
     {
-        if(ScreenGame.haveMusic)
-        {
-            bombSound.play();
-        }
         int res = 0;
         for (Iterator<AbstractAircraft> iterator = enemies.iterator(); iterator.hasNext(); ) {
             AbstractAircraft aircraft = iterator.next();

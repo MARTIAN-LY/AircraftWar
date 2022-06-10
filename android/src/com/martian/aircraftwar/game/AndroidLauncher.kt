@@ -8,17 +8,18 @@ import com.martian.aircraftwar.application.AircraftWarGame
 
 class AndroidLauncher : AndroidApplication() {
 
-    //接收数据，指定游戏模式
-    private val args: AndroidLauncherArgs by navArgs()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val config = AndroidApplicationConfiguration()
         config.useAccelerometer = false
         config.useCompass = false
+
+        /** 接收数据，指定模式 */
+        val mode = this.intent.getIntExtra("MODE",2)
+
         initialize(
             AircraftWarGame(
-                args.mode,
+                mode,
                 Communication(this)
             ), config
         )

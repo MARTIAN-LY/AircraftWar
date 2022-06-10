@@ -10,7 +10,7 @@ import com.martian.aircraftwar.data.ScoreViewModel
 import com.martian.aircraftwar.data.TmpScore
 import com.martian.aircraftwar.databinding.ActivityOnceScoreBinding
 import com.martian.aircraftwar.rank.RankActivity
-import com.martian.aircraftwar.shop.MainActivity
+import com.martian.aircraftwar.MainActivity
 
 class OnceScoreActivity : AppCompatActivity() {
 
@@ -35,8 +35,9 @@ class OnceScoreActivity : AppCompatActivity() {
         /** 显示本局得分 */
         binding.textMode.text = mode
         binding.textScore.text = TmpScore.score.toString()
+        /** 保存本局得分 */
+        viewModel.addScore(Score(0, TmpScore.score, TmpScore.mode, TmpScore.date))
 
-        /** 点击任意一个 button，都会将数据保存到本地 */
         var namePreference: SharedPreferences? = getSharedPreferences("userInfo", MODE_PRIVATE)
         val name = namePreference!!.getString("username", null)
         var preferences = getSharedPreferences(name, MODE_PRIVATE)
@@ -50,12 +51,10 @@ class OnceScoreActivity : AppCompatActivity() {
 
         /** 去 难度选择 界面*/
         binding.btnAgain.setOnClickListener {
-            viewModel.addScore(Score(0, TmpScore.score, TmpScore.mode, TmpScore.date))
             startActivity(Intent(this, MainActivity::class.java))
         }
         /** 去 排行榜 界面*/
         binding.btnConfirm.setOnClickListener {
-            viewModel.addScore(Score(0, TmpScore.score, TmpScore.mode, TmpScore.date))
             val intent = Intent(this, RankActivity::class.java)
             intent.putExtra("fromMenu", false)
             startActivity(intent)
@@ -63,12 +62,10 @@ class OnceScoreActivity : AppCompatActivity() {
         }
         /** 去 首页 */
         binding.btnFloat1.setOnClickListener {
-            viewModel.addScore(Score(0, TmpScore.score, TmpScore.mode, TmpScore.date))
             val intent = Intent(this, MainActivity::class.java)
             intent.putExtra("back", true)
             startActivity(intent)
-
         }
-
     }
+
 }

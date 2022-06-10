@@ -1,14 +1,11 @@
 package com.martian.aircraftwar.application;
 
-import static com.badlogic.gdx.scenes.scene2d.InputEvent.Type.exit;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -29,8 +26,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.martian.aircraftwar.aircraft.AbstractAircraft;
@@ -40,15 +35,10 @@ import com.martian.aircraftwar.aircraft.EliteEnemyFactory;
 import com.martian.aircraftwar.aircraft.HeroAircraft;
 import com.martian.aircraftwar.aircraft.MobEnemyFactory;
 import com.martian.aircraftwar.bullet.BaseBullet;
-import com.martian.aircraftwar.bullet.EnemyBullet;
-import com.martian.aircraftwar.bullet.EnemyMissile;
 import com.martian.aircraftwar.bullet.HeroBullet;
 import com.martian.aircraftwar.data.TmpScore;
 import com.martian.aircraftwar.prop.AbstractProp;
 import com.martian.aircraftwar.prop.BombProp;
-import com.martian.aircraftwar.shoot.EnemyShootScattered;
-import com.martian.aircraftwar.shoot.HeroShootDirect;
-import com.martian.aircraftwar.shoot.HeroShootScattered;
 
 import java.util.Date;
 import java.util.Iterator;
@@ -68,6 +58,7 @@ public abstract class ScreenGame implements Screen {
     private final Sound hit_sound;
     private final Sound hero_hit_sound;
     private final Sound prop_sound;
+    private final Sound bombSound;
     private BitmapFont bitmapFont;
     private final float bg_width;
     private final float bg_height;
@@ -97,7 +88,6 @@ public abstract class ScreenGame implements Screen {
     protected Texture background;
     protected int basicScore;
 
-    private MyInputProcessor inputProcessor = new MyInputProcessor();
     private Button stopButton;
     private Dialog stopDialog;
     private boolean skipFlag = false;
@@ -122,6 +112,7 @@ public abstract class ScreenGame implements Screen {
         hit_sound = Gdx.audio.newSound(Gdx.files.internal("videos/bullet_hit.wav"));
         hero_hit_sound = Gdx.audio.newSound(Gdx.files.internal("videos/hero_hit.wav"));
         prop_sound = Gdx.audio.newSound(Gdx.files.internal("videos/get_supply.wav"));
+        bombSound = Gdx.audio.newSound(Gdx.files.internal("videos/bomb_explosion.wav"));
         haveMusic = true;
 
         //load aircraft
@@ -149,8 +140,7 @@ public abstract class ScreenGame implements Screen {
 
         //load buttons & dialogs
 
-        if(game.communicate.isHaveHeal())
-        {
+        if (game.communicate.isHaveHeal()) {
             ImageTextButton.ImageTextButtonStyle healButtonStyle = new ImageTextButton.ImageTextButtonStyle();
             healButtonStyle.font = bitmapFont;
             healButtonStyle.imageUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("images/healbutton1.jpg"))));
@@ -159,24 +149,19 @@ public abstract class ScreenGame implements Screen {
             healButton.setSize(60, 60);
             healButton.setBounds(0, 0, 60, 60);
             game.stage.addActor(healButton);
-            healButton.addListener(new ChangeListener(){
+            healButton.addListener(new ChangeListener() {
                 @Override
-                public void changed(ChangeEvent event, Actor actor)
-                {
-                    if(healButton.isChecked())
-                    {
+                public void changed(ChangeEvent event, Actor actor) {
+                    if (healButton.isChecked()) {
                         healButton.setDisabled(true);
                         hero.addHp(5);
                         Runnable r = () ->
                         {
-                            for(int i = 9; i >= 1; i--)
-                            {
-                                healButton.setText(i+"s");
-                                try
-                                {
+                            for (int i = 9; i >= 1; i--) {
+                                healButton.setText(i + "s");
+                                try {
                                     Thread.sleep(1000);
-                                } catch (InterruptedException e)
-                                {
+                                } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
                             }
@@ -204,7 +189,7 @@ public abstract class ScreenGame implements Screen {
         musicButton.setBounds(bg_width - 120, bg_height - 60, 50, 50);
 
         Skin skin = new Skin();
-        Pixmap pixmap = new Pixmap(1,1, Pixmap.Format.RGBA8888);
+        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.GRAY);
         pixmap.fill();
         skin.add("gray", new Texture(pixmap));
@@ -214,33 +199,31 @@ public abstract class ScreenGame implements Screen {
         BitmapFont font = new BitmapFont();
         Window.WindowStyle windowStyle = new Window.WindowStyle(font, Color.RED, skin.getDrawable("light_gray"));
         stopDialog = new Dialog("stop", windowStyle);
-        stopDialog.setBounds( bg_width / 2 - 60, bg_height / 2 - 30,120, 60);
-        Label.LabelStyle labelStyle = new Label.LabelStyle( font, Color.RED );
-        Button.ButtonStyle buttonStyle = new Button.ButtonStyle( skin.getDrawable("gray"), skin.getDrawable("light_gray"), null );
-        TextButton.TextButtonStyle textbuttonStyle = new TextButton.TextButtonStyle( skin.getDrawable("gray"), skin.getDrawable("light_gray"), null, font );
-        skin.add( "default", buttonStyle );
-        skin.add( "default", textbuttonStyle );
-        skin.add( "default", windowStyle );
-        skin.add( "default", labelStyle );
+        stopDialog.setBounds(bg_width / 2 - 60, bg_height / 2 - 30, 120, 60);
+        Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.RED);
+        Button.ButtonStyle buttonStyle = new Button.ButtonStyle(skin.getDrawable("gray"), skin.getDrawable("light_gray"), null);
+        TextButton.TextButtonStyle textbuttonStyle = new TextButton.TextButtonStyle(skin.getDrawable("gray"), skin.getDrawable("light_gray"), null, font);
+        skin.add("default", buttonStyle);
+        skin.add("default", textbuttonStyle);
+        skin.add("default", windowStyle);
+        skin.add("default", labelStyle);
         TextButton backButton = new TextButton("Back", skin);
-        TextButton exitButton = new TextButton( "Exit", skin);
-        backButton.setBounds( 10, 10, 40, 20 );
-        exitButton.setBounds( 120-50, 10, 40, 20 );
-        stopDialog.addActor( backButton );
-        stopDialog.addActor( exitButton );
-        backButton.addListener(new ClickListener(){
+        TextButton exitButton = new TextButton("Exit", skin);
+        backButton.setBounds(10, 10, 40, 20);
+        exitButton.setBounds(120 - 50, 10, 40, 20);
+        stopDialog.addActor(backButton);
+        stopDialog.addActor(exitButton);
+        backButton.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y)
-            {
+            public void clicked(InputEvent event, float x, float y) {
                 stopButton.setChecked(false);
                 skipFlag = false;
                 stopDialog.hide();
             }
         });
-        exitButton.addListener(new ClickListener(){
+        exitButton.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y)
-            {
+            public void clicked(InputEvent event, float x, float y) {
                 hero.vanish();
                 stopButton.setChecked(false);
                 skipFlag = false;
@@ -250,33 +233,25 @@ public abstract class ScreenGame implements Screen {
         game.stage.addActor(stopDialog);
         stopDialog.hide();
 
-        stopButton.addListener(new ClickListener(){
+        stopButton.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y)
-            {
-                if(stopButton.isChecked())
-                {
+            public void clicked(InputEvent event, float x, float y) {
+                if (stopButton.isChecked()) {
                     skipFlag = true;
                     stopDialog.show(game.stage);
-                    stopDialog.setBounds( bg_width / 2 - 60, bg_height / 2 - 30,120, 60);
-                }
-                else
-                {
+                    stopDialog.setBounds(bg_width / 2 - 60, bg_height / 2 - 30, 120, 60);
+                } else {
                     skipFlag = false;
                 }
             }
         });
-        musicButton.addListener(new ClickListener(){
+        musicButton.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y)
-            {
-                if(musicButton.isChecked())
-                {
+            public void clicked(InputEvent event, float x, float y) {
+                if (musicButton.isChecked()) {
                     haveMusic = false;
                     bg_music.pause();
-                }
-                else
-                {
+                } else {
                     haveMusic = true;
                     bg_music.play();
                 }
@@ -297,8 +272,7 @@ public abstract class ScreenGame implements Screen {
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
 
-        if(!skipFlag)
-        {
+        if (!skipFlag) {
             addEnemyAction();
             shootAction();
             moveAction();
@@ -346,11 +320,14 @@ public abstract class ScreenGame implements Screen {
                     continue;
                 }
                 if (hero.crash(prop)) {
-                    if(haveMusic)
-                    {
+                    if (haveMusic) {
                         prop_sound.play();
                     }
                     if (prop instanceof BombProp) {
+                        if(haveMusic)
+                        {
+                            bombSound.play();
+                        }
                         score += basicScore * ((BombProp) prop).effect(enemies, bullets);
                     } else prop.effect();
                     prop.vanish();
@@ -381,8 +358,7 @@ public abstract class ScreenGame implements Screen {
                 // 英雄机损失一定生命值
                 hero.decreaseHp(bullet.getPower());
                 bullet.vanish();
-                if(haveMusic)
-                {
+                if (haveMusic) {
                     hero_hit_sound.play();
                 }
             }
@@ -400,8 +376,7 @@ public abstract class ScreenGame implements Screen {
                 if (enemyAircraft.crash(bullet)) {
                     // 敌机撞击到英雄机子弹
                     // 敌机损失一定生命值
-                    if(haveMusic)
-                    {
+                    if (haveMusic) {
                         hit_sound.play();
                     }
                     enemyAircraft.decreaseHp(bullet.getPower());
@@ -440,15 +415,12 @@ public abstract class ScreenGame implements Screen {
             Rectangle tmp = new Rectangle(touchPos.x, touchPos.y, 10, 10);
             Rectangle b1 = new Rectangle(stopButton.getX(), stopButton.getY(), stopButton.getWidth(), stopButton.getHeight());
             Rectangle b2 = new Rectangle(musicButton.getX(), musicButton.getY(), musicButton.getWidth(), musicButton.getHeight());
-            if(tmp.overlaps(b1) || tmp.overlaps(b2))
-            {
+            if (tmp.overlaps(b1) || tmp.overlaps(b2)) {
                 return;
             }
-            if(game.communicate.isHaveHeal())
-            {
+            if (game.communicate.isHaveHeal()) {
                 Rectangle b3 = new Rectangle(healButton.getX(), healButton.getY(), healButton.getWidth(), healButton.getHeight());
-                if(tmp.overlaps(b3))
-                {
+                if (tmp.overlaps(b3)) {
                     return;
                 }
             }
@@ -559,7 +531,11 @@ public abstract class ScreenGame implements Screen {
             TmpScore.score = score;
             TmpScore.mode = game.mode;
             TmpScore.setDate(new Date());
-            game.communicate.gotoOnceScore();
+            if (game.mode == 3) {
+                game.communicate.gotoPkResult();
+            } else {
+                game.communicate.gotoOnceScore();
+            }
         }
     }
 }
