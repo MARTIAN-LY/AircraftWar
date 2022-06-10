@@ -2,7 +2,6 @@ package com.martian.aircraftwar.online;
 
 import android.util.Log;
 
-<<<<<<< HEAD
 import com.martian.aircraftwar.rank.world.Data;
 
 import java.io.IOException;
@@ -13,13 +12,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-=======
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.Socket;
-import java.nio.charset.StandardCharsets;
->>>>>>> yang_cao
+
 
 public class Client {
 
@@ -27,7 +20,6 @@ public class Client {
     public static InputStream is = null;
     public static OutputStream os = null;
 
-<<<<<<< HEAD
     private static Socket data_socket = null;
     private static InputStream data_is = null;
     private static OutputStream data_os = null;
@@ -37,13 +29,7 @@ public class Client {
             Log.e("========", "执行：initConnection");
             socket = new Socket("192.168.3.7", 8888);
             Log.e("========", "initConnection没卡");
-=======
-    public static void initConnection() {
-        try {
-            Log.e("========", "执行：initConnection");
-            socket = new Socket("192.168.80.1", 8888);
-            Log.e("========", "检查是不是卡了");
->>>>>>> yang_cao
+
             is = socket.getInputStream();
             os = socket.getOutputStream();
         } catch (IOException e) {
@@ -83,7 +69,6 @@ public class Client {
             Log.e("========", "向服务端发送信息失败");
         }
     }
-<<<<<<< HEAD
 
     /**
      * 世界排行
@@ -152,6 +137,4 @@ public class Client {
             Log.e("========", "关闭DataSocket失败");
         }
     }
-=======
->>>>>>> yang_cao
 }
