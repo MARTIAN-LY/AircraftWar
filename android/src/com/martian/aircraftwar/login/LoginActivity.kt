@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.widget.Toast
 import com.martian.aircraftwar.MainActivity
 import com.martian.aircraftwar.databinding.ActivityLoginBinding
+import com.martian.aircraftwar.rank.world.MyBestScore
 
 class LoginActivity : AppCompatActivity() {
 
@@ -34,6 +35,7 @@ class LoginActivity : AppCompatActivity() {
                         val edit = preferences.edit()
                         edit.putString("username", username)
                         edit.putString("password", password)
+                        MyBestScore.name = name
                         edit.commit()
                         Toast.makeText(this, "欢迎你,$username", Toast.LENGTH_SHORT).show()
                         startActivity(Intent(this, MainActivity::class.java))
@@ -42,6 +44,7 @@ class LoginActivity : AppCompatActivity() {
                 }
             } else {
                 /** 已经登录过，不用再输入用户名、密码 */
+                MyBestScore.name = name
                 Toast.makeText(this, "欢迎你,$name", Toast.LENGTH_SHORT).show()
                 startActivity(Intent(this, MainActivity::class.java))
                 this.finish()

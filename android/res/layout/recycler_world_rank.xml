@@ -1,31 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardElevation="10dp"
     app:cardCornerRadius="2dp"
-    app:cardPreventCornerOverlap="false"
-    >
+    app:cardElevation="10dp"
+    app:cardPreventCornerOverlap="false">
     <!--app:cardElevation="10dp"  阴影效果-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/card_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="15dp">
+        android:paddingLeft="15dp"
+        android:paddingTop="20dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="30dp">
 
 
         <TextView
             android:id="@+id/item_worldrank_text_rank"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginStart="20dp"
             android:text="1"
-            android:textSize="50sp"
+            android:textColor="@android:color/holo_orange_light"
+            android:textSize="40sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,45 +35,25 @@
             android:id="@+id/item_worldrank_text_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="95dp"
-            android:layout_marginTop="23dp"
+            android:layout_marginEnd="20dp"
             android:text="score"
-            android:textSize="40sp"
-            app:layout_constraintStart_toEndOf="@+id/item_worldrank_text_rank"
+            android:textColor="@color/light_blue_600"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/item_worldrank_text_mode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="45dp"
-            android:layout_marginEnd="30dp"
-            android:text="mode"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@+id/item_worldrank_text_time"
-            app:layout_constraintTop_toBottomOf="@+id/item_worldrank_text_name" />
 
         <TextView
             android:id="@+id/item_worldrank_text_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="26dp"
-            android:layout_marginEnd="25dp"
             android:text="name"
-            android:textSize="30sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/item_worldrank_text_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="45dp"
-            android:layout_marginEnd="15dp"
-            android:text="2022-1-1  12:1:06"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/item_worldrank_text_name" />
+            android:textSize="48sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/item_worldrank_text_score"
+            app:layout_constraintStart_toEndOf="@+id/item_worldrank_text_rank"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.609" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

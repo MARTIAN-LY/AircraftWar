@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.martian.aircraftwar.data.Score
 import com.martian.aircraftwar.databinding.RecyclerMyscoreBinding
+import com.martian.aircraftwar.rank.world.MyBestScore
 
 /** 我的得分界面 RecyclerView 的 Adapter*/
 class MyScoreAdapter(
@@ -30,6 +31,9 @@ class MyScoreAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         val currentItem = scoreList[position]
+        if (position == 0){
+            MyBestScore.num = currentItem.num
+        }
         val rank = (position + 1).toString()
         holder.binding.apply {
             itemMyscoreTextRank.text = rank

@@ -16,6 +16,7 @@ import com.martian.aircraftwar.data.Score
 import com.martian.aircraftwar.data.ScoreViewModel
 import com.martian.aircraftwar.databinding.FragmentMyScoreBinding
 import com.martian.aircraftwar.rank.decoration.TopSpacingItemDecoration
+import com.martian.aircraftwar.rank.world.MyBestScore
 import java.text.FieldPosition
 
 /** 我的得分 Fragment */
@@ -34,11 +35,7 @@ class MyScoreFragment : Fragment(), ItemOperator {
 
         _binding = FragmentMyScoreBinding.inflate(layoutInflater, container, false)
 
-        /** 用 SharedPreferences获取用户名 */
-        val preferences = activity?.getSharedPreferences("userInfo", AppCompatActivity.MODE_PRIVATE)
-        val name = preferences?.getString("username", "")
-
-        adapter = MyScoreAdapter(name, this)
+        adapter = MyScoreAdapter(MyBestScore.name, this)
 
         /** 给 RecyclerView 传递数据 */
         model = ViewModelProvider(this)[ScoreViewModel::class.java]

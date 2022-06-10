@@ -9,6 +9,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.martian.aircraftwar.MainActivity
 import com.martian.aircraftwar.databinding.ActivityRankBinding
+import com.martian.aircraftwar.rank.world.MyBestScore
 
 
 class RankActivity : AppCompatActivity() {
