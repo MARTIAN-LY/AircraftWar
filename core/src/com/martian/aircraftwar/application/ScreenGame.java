@@ -58,6 +58,7 @@ public abstract class ScreenGame implements Screen {
     private final Sound hit_sound;
     private final Sound hero_hit_sound;
     private final Sound prop_sound;
+    private final Sound bombSound;
     private BitmapFont bitmapFont;
     private final float bg_width;
     private final float bg_height;
@@ -111,6 +112,7 @@ public abstract class ScreenGame implements Screen {
         hit_sound = Gdx.audio.newSound(Gdx.files.internal("videos/bullet_hit.wav"));
         hero_hit_sound = Gdx.audio.newSound(Gdx.files.internal("videos/hero_hit.wav"));
         prop_sound = Gdx.audio.newSound(Gdx.files.internal("videos/get_supply.wav"));
+        bombSound = Gdx.audio.newSound(Gdx.files.internal("videos/bomb_explosion.wav"));
         haveMusic = true;
 
         //load aircraft
@@ -322,6 +324,10 @@ public abstract class ScreenGame implements Screen {
                         prop_sound.play();
                     }
                     if (prop instanceof BombProp) {
+                        if(haveMusic)
+                        {
+                            bombSound.play();
+                        }
                         score += basicScore * ((BombProp) prop).effect(enemies, bullets);
                     } else prop.effect();
                     prop.vanish();

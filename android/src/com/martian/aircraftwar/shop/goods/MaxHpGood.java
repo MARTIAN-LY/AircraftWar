@@ -36,5 +36,6 @@ public class MaxHpGood extends Good
         editor.commit();
         editor.putInt("UserMaxHp", MaxHp + 1);
         editor.commit();
+        las -= 1;
     }
 }
