@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_goodlook"
     tools:context=".online.OnlineActivity">
 
     <TextView
@@ -34,7 +35,7 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginTop="130dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginEnd="32dp"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_waiting"
@@ -44,11 +45,11 @@
         android:id="@+id/text_myname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="44dp"
         android:layout_marginTop="36dp"
         android:text="myname"
         android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/image_my"
+        app:layout_constraintStart_toStartOf="@+id/image_my"
         app:layout_constraintTop_toBottomOf="@+id/image_my" />
 
     <TextView
@@ -56,11 +57,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
-        android:layout_marginEnd="44dp"
         android:text="playername"
         android:textSize="20sp"
         android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/image_player"
+        app:layout_constraintHorizontal_bias="0.72"
+        app:layout_constraintStart_toStartOf="@+id/image_player"
         app:layout_constraintTop_toBottomOf="@+id/image_player" />
 
     <ProgressBar

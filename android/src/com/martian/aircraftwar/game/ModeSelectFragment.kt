@@ -1,5 +1,6 @@
 package com.martian.aircraftwar.game
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -29,16 +30,19 @@ class ModeSelectFragment : Fragment() {
 
         //不同难度
         binding.buttonEasy.setOnClickListener {
-            val action = ModeSelectFragmentDirections.navModeToGame(0)
-            Navigation.findNavController(view).navigate(action)
+            val intent = Intent(activity,AndroidLauncher::class.java)
+            intent.putExtra("MODE",0)
+            startActivity(intent)
         }
         binding.buttonNormal.setOnClickListener {
-            val action = ModeSelectFragmentDirections.navModeToGame(1)
-            Navigation.findNavController(view).navigate(action)
+            val intent = Intent(activity,AndroidLauncher::class.java)
+            intent.putExtra("MODE",1)
+            startActivity(intent)
         }
         binding.buttonHard.setOnClickListener {
-            val action = ModeSelectFragmentDirections.navModeToGame(2)
-            Navigation.findNavController(view).navigate(action)
+            val intent = Intent(activity,AndroidLauncher::class.java)
+            intent.putExtra("MODE",2)
+            startActivity(intent)
         }
 
         return view

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_goodlook"
     tools:context=".online.PkResultActivity">
 
 
@@ -12,7 +13,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="92dp"
-        android:text="TextView"
+        android:text="等待结果结算中..."
+        android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.47"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,8 +24,8 @@
         android:id="@+id/image_pk_my"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="168dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="92dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_pk_result"
         app:srcCompat="@drawable/ic_aircraft" />
@@ -32,9 +34,9 @@
         android:id="@+id/image_pk_player"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginTop="168dp"
-        android:layout_marginEnd="76dp"
-        android:visibility="invisible"
+        android:layout_marginTop="92dp"
+        android:layout_marginEnd="60dp"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_pk_result"
         app:srcCompat="@drawable/ic_aircraft2" />
@@ -43,10 +45,11 @@
         android:id="@+id/text_pk_myname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="76dp"
         android:layout_marginTop="44dp"
-        android:text="TextView"
-        app:layout_constraintStart_toStartOf="parent"
+        android:text="myname"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/image_pk_my"
+        app:layout_constraintStart_toStartOf="@+id/image_pk_my"
         app:layout_constraintTop_toBottomOf="@+id/image_pk_my" />
 
     <TextView
@@ -54,10 +57,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
-        android:layout_marginEnd="96dp"
-        android:text="TextView"
+        android:text="playername"
+        android:textSize="20sp"
         android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/image_pk_player"
+        app:layout_constraintStart_toStartOf="@+id/image_pk_player"
         app:layout_constraintTop_toBottomOf="@+id/image_pk_player" />
 
     <ProgressBar
@@ -65,8 +69,49 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="184dp"
-        android:layout_marginEnd="92dp"
+        android:layout_marginTop="60dp"
+        app:layout_constraintEnd_toEndOf="@+id/image_pk_player"
+        app:layout_constraintStart_toStartOf="@+id/image_pk_player"
+        app:layout_constraintTop_toBottomOf="@+id/image_pk_player" />
+
+    <TextView
+        android:id="@+id/text_pk_myscore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="myscore"
+        android:textColor="#2196F3"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="@+id/image_pk_my"
+        app:layout_constraintStart_toStartOf="@+id/image_pk_my"
+        app:layout_constraintTop_toBottomOf="@+id/text_pk_myname" />
+
+    <TextView
+        android:id="@+id/text_pk_playerscore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="player_score"
+        android:textColor="#2196F3"
+        android:textSize="30sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/image_pk_player"
+        app:layout_constraintStart_toStartOf="@+id/image_pk_player"
+        app:layout_constraintTop_toBottomOf="@+id/text_pk_playername" />
+
+    <Button
+        android:id="@+id/btn_pk_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="392dp"
+        android:background="@drawable/btn_select"
+        android:paddingLeft="70dp"
+        android:paddingRight="70dp"
+        android:text="确定"
+        android:textSize="24sp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_pk_result" />
 </androidx.constraintlayout.widget.ConstraintLayout>

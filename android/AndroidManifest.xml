@@ -19,8 +19,9 @@
         android:label="@string/app_name"
         tools:ignore="UnusedAttribute">
         <activity
-            android:name=".PkResultActivity"
-            android:exported="false" />
+            android:name=".online.PkResultActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name=".online.OnlineActivity"
             android:exported="false"

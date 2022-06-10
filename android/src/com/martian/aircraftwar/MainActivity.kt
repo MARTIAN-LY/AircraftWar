@@ -15,9 +15,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        Thread {
-            Client.initConnection()
-        }.start()
+
     }
 
     override fun onNewIntent(intent: Intent?) {
